@@ -1,0 +1,68 @@
+connectors:
+  mix_api:
+    enabled: true
+    type: mix_api
+    providers:
+      supabase_edge:
+        api_key: ${SUPABASE_SERVICE_KEY}
+        base_url: https://xhppqnkewoqhcglccgkq.supabase.co
+    tasks:
+      vectorization:
+        provider: supabase_edge
+        model: https://xhppqnkewoqhcglccgkq.supabase.co/functions/v1/victorize
+        capabilities:
+          enabled: true
+          dimensions: 1536
+          batch_size: 100
+
+  anthropic:
+    enabled: true
+    type: anthropic
+    api_key: ${ANTHROPIC_API_KEY}
+    base_url: https://api.anthropic.com
+    default_model: claude-3-sonnet
+    capabilities:
+      summary:
+        enabled: true
+        max_length: 500
+        temperature: 0.7
+      text_generation: true
+      classification: true
+      vectorization: false
+      ocr: true  # Claude может работать с изображениями
+
+  mistral:
+    enabled: true
+    type: mistral
+    api_key: ${MISTRAL_API_KEY}
+    base_url: https://api.mistral.ai
+    default_model: mistral-large
+    capabilities:
+      summary:
+        enabled: true
+        max_length: 500
+        temperature: 0.7
+      text_generation: true
+      classification: true
+      vectorization: false
+      ocr: false  # Mistral не поддерживает работу с изображениями
+
+tasks:
+  summary:
+    provider: anthropic  # Основной провайдер для summary
+    fallback_providers:  # Список провайдеров для fallback
+      - mistral
+    max_retries: 3
+    timeout: 30
+
+  vectorization:
+    provider: mix_api  # Используем MixAPI для векторизации
+    fallback_providers: []   # Пока нет альтернатив
+    max_retries: 3
+    timeout: 30
+
+  ocr:
+    provider: anthropic  # Только Anthropic поддерживает OCR
+    fallback_providers: []
+    max_retries: 3
+    timeout: 30 

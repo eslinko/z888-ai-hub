@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: z888-ai-hub
+Version: 0.1.0
+Requires-Python: >=3.8
+License-File: LICENSE
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: pyyaml==6.0.1
+Requires-Dist: mistralai==1.5.1
+Requires-Dist: anthropic==0.49.0
+Requires-Dist: requests>=2.32.2
+Requires-Dist: asyncio==3.4.3
+Requires-Dist: numpy<2.0.0
+Requires-Dist: jsonschema==3.2.0
+Requires-Dist: urllib3<2.0.0
+Dynamic: requires-dist
+Dynamic: requires-python

@@ -1,0 +1,52 @@
+connectors:
+  anthropic:
+    enabled: true
+    type: anthropic
+    api_key: ${ANTHROPIC_API_KEY}
+    base_url: https://api.anthropic.com
+    default_model: claude-3-sonnet-20240229
+    capabilities:
+      summary:
+        enabled: true
+        max_length: 500
+        temperature: 0.7
+      text_generation: true
+      classification: true
+      vectorization: false
+      ocr: true
+
+  mix_api:
+    enabled: true
+    type: mix_api
+    providers:
+      anthropic:
+        api_key: ${ANTHROPIC_API_KEY}
+        base_url: https://api.anthropic.com
+    tasks:
+      vectorization:
+        provider: anthropic
+        model: claude-3-sonnet-20240229
+        capabilities:
+          enabled: true
+          dimensions: 1536
+          batch_size: 100
+
+tasks:
+  summary:
+    provider: anthropic
+    fallback_providers: []
+    max_retries: 3
+    timeout: 30
+
+  vectorization:
+    provider: mix_api
+    fallback_providers: []
+    max_retries: 3
+    timeout: 30
+
+processing:
+  file_types: [".pdf", ".doc", ".docx", ".txt"]
+  max_file_size: 10485760  # 10MB
+  batch_size: 5
+  summary_length: 500
+  vector_dimension: 1536 

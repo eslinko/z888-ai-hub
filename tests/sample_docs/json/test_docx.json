@@ -1,0 +1,270 @@
+{
+    "file_id": "1cbafa99-393f-4a83-a5e2-a4efd7190a0d",
+    "file_name": "test.docx",
+    "summary": "This is a test document containing two short paragraphs, with the second paragraph having some formatting.",
+    "metadata": {
+        "title": "",
+        "author": "python-docx",
+        "created": "2013-12-23T23:15:00+00:00",
+        "modified": "2013-12-23T23:15:00+00:00",
+        "last_modified_by": "",
+        "revision": 1,
+        "paragraph_count": 3,
+        "section_count": 1,
+        "page_count": 1
+    },
+    "text": "Test Document\n\nThis is a test paragraph.\n\nThis is another paragraph with some formatting.",
+    "tables": [
+        {
+            "data": [
+                [
+                    {
+                        "text": "Header 1",
+                        "colspan": 1,
+                        "rowspan": 1
+                    },
+                    {
+                        "text": "Header 2",
+                        "colspan": 1,
+                        "rowspan": 1
+                    }
+                ],
+                [
+                    {
+                        "text": "Data 1",
+                        "colspan": 1,
+                        "rowspan": 1
+                    },
+                    {
+                        "text": "Data 2",
+                        "colspan": 1,
+                        "rowspan": 1
+                    }
+                ]
+            ],
+            "row_count": 2,
+            "column_count": 2
+        }
+    ],
+    "images": [],
+    "styles": {
+        "Normal": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Header": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Footer": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Heading 1": {
+            "font": null,
+            "size": 177800,
+            "bold": true,
+            "italic": null
+        },
+        "Heading 2": {
+            "font": null,
+            "size": 165100,
+            "bold": true,
+            "italic": null
+        },
+        "Heading 3": {
+            "font": null,
+            "size": null,
+            "bold": true,
+            "italic": null
+        },
+        "Heading 4": {
+            "font": null,
+            "size": null,
+            "bold": true,
+            "italic": true
+        },
+        "Heading 5": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Heading 6": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": true
+        },
+        "Heading 7": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": true
+        },
+        "Heading 8": {
+            "font": null,
+            "size": 127000,
+            "bold": null,
+            "italic": null
+        },
+        "Heading 9": {
+            "font": null,
+            "size": 127000,
+            "bold": null,
+            "italic": true
+        },
+        "No Spacing": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Title": {
+            "font": null,
+            "size": 330200,
+            "bold": null,
+            "italic": null
+        },
+        "Subtitle": {
+            "font": null,
+            "size": 152400,
+            "bold": null,
+            "italic": true
+        },
+        "List Paragraph": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Body Text": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Body Text 2": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "Body Text 3": {
+            "font": null,
+            "size": 101600,
+            "bold": null,
+            "italic": null
+        },
+        "List": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List 2": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List 3": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Bullet": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Bullet 2": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Bullet 3": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Number": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Number 2": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Number 3": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Continue": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Continue 2": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "List Continue 3": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        },
+        "macro": {
+            "font": "Courier",
+            "size": 127000,
+            "bold": null,
+            "italic": null
+        },
+        "Quote": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": true
+        },
+        "Caption": {
+            "font": null,
+            "size": 114300,
+            "bold": true,
+            "italic": null
+        },
+        "Intense Quote": {
+            "font": null,
+            "size": null,
+            "bold": true,
+            "italic": true
+        },
+        "TOC Heading": {
+            "font": null,
+            "size": null,
+            "bold": null,
+            "italic": null
+        }
+    },
+    "created_at": "2025-03-19T12:58:59.725996Z",
+    "updated_at": "2025-03-19T12:58:59.725996Z"
+}

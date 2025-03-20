@@ -1,0 +1,11 @@
+tasks:
+  text_generation:
+    default: "anthropic"
+  summarization:
+    default: "anthropic"
+  classification:
+    default: "anthropic"
+  ocr:
+    default: "mistral"
+  speech_to_text:
+    default: "openai"  # Будет добавлен позже
