@@ -1,0 +1,16 @@
+.DS_Store
+/logs
+/tests/__pycache__
+/venv
+/z888_ai_hub/processors/__pycache__
+/z888_ai_hub/registry/__pycache__
+/z888_ai_hub/utils/__pycache__
+/z888_ai_hub/connectors/__pycache__
+/z888_ai_hub/client/__pycache__
+/z888_ai_hub/__pycache__
+/tests/sample_pdfs/json
+mistral.ts
+/z888_ai_hub/storage/__pycache__
+/z888_ai_hub/storage/database/__pycache__
+/z888_ai_hub/config/__pycache__
+.env
