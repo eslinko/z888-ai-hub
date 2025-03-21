@@ -55,13 +55,12 @@ class PdfProcessor(BaseDocumentProcessor):
                 tables = self._extract_tables(pdf)
                 images = self._extract_images(pdf)
 
-            # Сначала пробуем извлечь текст с помощью PyMuPDF
-            text = self._extract_text_with_pymupdf(file_path)
-            
-            # Если PyMuPDF не смог извлечь текст, пробуем pdfplumber
-            if not text:
-                logging.debug("PyMuPDF failed to extract text, trying pdfplumber")
-                with pdfplumber.open(file_path) as pdf:
+                # Сначала пробуем извлечь текст с помощью PyMuPDF
+                text = self._extract_text_with_pymupdf(file_path)
+                
+                # Если PyMuPDF не смог извлечь текст, пробуем pdfplumber
+                if not text:
+                    logging.debug("PyMuPDF failed to extract text, trying pdfplumber")
                     text = self._extract_text_with_pdfplumber(pdf)
                     
                     # Если и pdfplumber не смог извлечь текст, пробуем Mistral OCR
@@ -70,20 +69,29 @@ class PdfProcessor(BaseDocumentProcessor):
                         text = await self.mistral.extract_text(file_path)
                         if text:
                             logging.debug(f"Successfully extracted text using Mistral OCR, length: {len(text)}")
+                            # Для OCR-текста не нужно добавлять заголовок
+                            return DocumentContent(
+                                text=text,
+                                metadata=metadata,
+                                tables=tables,
+                                images=images,
+                                styles={}  # OCR-текст не имеет стилей
+                            )
                         else:
                             logging.debug("Mistral OCR failed to extract text")
-            
-            # Добавляем заголовок из метаданных в начало текста, если он есть
-            if metadata.get("title") and metadata["title"] not in text:
-                text = f"{metadata['title']}\n\n{text}"
                 
-            return DocumentContent(
-                text=text,
-                metadata=metadata,
-                tables=tables,
-                images=images,
-                styles=styles
-            )
+                # Добавляем заголовок из метаданных в начало текста, если он есть и не пустой
+                title = metadata.get("title")
+                if title and title != "untitled" and title not in text:
+                    text = f"{title}\n\n{text}"
+                
+                return DocumentContent(
+                    text=text,
+                    metadata=metadata,
+                    tables=tables,
+                    images=images,
+                    styles=styles
+                )
                 
         except Exception as e:
             logging.error(f"Error extracting content: {str(e)}")
@@ -181,22 +189,34 @@ class PdfProcessor(BaseDocumentProcessor):
             logging.error(f"Error extracting text with pdfplumber: {str(e)}")
             raise ContentExtractionError(f"Failed to extract text: {str(e)}")
 
-    def _extract_metadata(self, pdf: pdfplumber.PDF) -> Dict[str, Any]:
-        """Extract document metadata."""
-        try:
-            metadata = pdf.metadata
-            return {
-                "title": metadata.get("Title", ""),
-                "author": metadata.get("Author", ""),
-                "creator": metadata.get("Creator", ""),
-                "producer": metadata.get("Producer", ""),
-                "created": metadata.get("CreationDate", ""),
-                "modified": metadata.get("ModDate", ""),
-                "page_count": len(pdf.pages),
-                "file_size": os.path.getsize(pdf.stream.name) if pdf.stream.name else None
-            }
-        except Exception as e:
-            raise MetadataExtractionError(f"Failed to extract metadata: {str(e)}")
+    def _extract_metadata(self, pdf) -> Dict[str, str]:
+        """
+        Extract metadata from PDF file.
+        
+        Args:
+            pdf: PDF file object
+            
+        Returns:
+            Dictionary with metadata
+        """
+        metadata = {}
+        
+        # Извлекаем базовые метаданные
+        info = pdf.metadata
+        if info:
+            metadata["title"] = str(info.get("Title", "untitled"))
+            metadata["author"] = str(info.get("Author", "anonymous"))
+            metadata["creator"] = str(info.get("Creator", "unknown"))
+            metadata["producer"] = str(info.get("Producer", "unknown"))
+            metadata["subject"] = str(info.get("Subject", "unspecified"))
+            metadata["created"] = str(info.get("CreationDate", ""))
+            metadata["modified"] = str(info.get("ModDate", ""))
+        
+        # Добавляем дополнительную информацию
+        metadata["page_count"] = str(len(pdf.pages))
+        metadata["file_size"] = str(os.path.getsize(pdf.stream.name))
+        
+        return metadata
 
     def _extract_tables(self, pdf: pdfplumber.PDF) -> List[Dict[str, Any]]:
         """Extract tables with their structure."""
@@ -294,3 +314,57 @@ class PdfProcessor(BaseDocumentProcessor):
         except Exception as e:
             self.logger.warning(f"Failed to extract page layout: {str(e)}")
             return {}
+
+    async def extract_metadata(self, file_path: str) -> Dict[str, str]:
+        """
+        Extract metadata from PDF file.
+        
+        Args:
+            file_path: Path to PDF file
+            
+        Returns:
+            Dictionary with metadata
+            
+        Raises:
+            MetadataExtractionError: If extraction fails
+        """
+        try:
+            with pdfplumber.open(file_path) as pdf:
+                return self._extract_metadata(pdf)
+        except Exception as e:
+            logging.error(f"Error extracting metadata: {str(e)}")
+            raise MetadataExtractionError(f"Failed to extract metadata from {file_path}: {str(e)}")
+
+    async def extract_images(self, file_path: str, compress: bool = False) -> List[Dict[str, Any]]:
+        """
+        Extract images from PDF file.
+        
+        Args:
+            file_path: Path to PDF file
+            compress: Whether to compress images
+            
+        Returns:
+            List of dictionaries with image data
+            
+        Raises:
+            ImageExtractionError: If extraction fails
+        """
+        try:
+            with pdfplumber.open(file_path) as pdf:
+                images = self._extract_images(pdf)
+                if compress:
+                    for image in images:
+                        if "data" in image:
+                            # Сжимаем изображение
+                            img = Image.open(io.BytesIO(image["data"]))
+                            output = io.BytesIO()
+                            img.save(output, format=image["format"], optimize=True, quality=85)
+                            image["data"] = output.getvalue()
+                            image["compressed_size"] = len(image["data"])
+                return images
+        except Exception as e:
+            logging.error(f"Error extracting images: {str(e)}")
+            raise ImageExtractionError(f"Failed to extract images from {file_path}: {str(e)}")
+
+    # Алиас для обратной совместимости
+    get_metadata = extract_metadata

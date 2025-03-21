@@ -3,11 +3,12 @@ Factory for creating connectors.
 """
 
 from typing import Dict, List, Optional, Type, Any, Tuple
-from z888_ai_hub.connectors.base_connector import BaseConnector, ConnectorCapability
+from z888_ai_hub.connectors.base_connector import BaseConnector, ConnectorCapability, ConnectorConfig, ConnectorConfigImpl
 from z888_ai_hub.connectors.anthropic import AnthropicConnector
 from z888_ai_hub.connectors.mistral import MistralConnector
 from z888_ai_hub.connectors.mix_api import MixAPIConnector
 from z888_ai_hub.utils.logging_utils import setup_logger
+from z888_ai_hub.utils.env_loader import load_env
 
 logger = setup_logger('ConnectorFactory')
 
@@ -110,11 +111,35 @@ class ConnectorFactory:
                     task_configs=task_configs
                 )
             else:
-                # Стандартная обработка для других коннекторов
-                connector = connector_class(**config)
+                # Фильтруем служебные поля и разрешаем переменные окружения
+                api_key = config.get("api_key")
+                base_url = config.get("base_url")
+                default_model = config.get("default_model")
+
+                if api_key and "${" in api_key:
+                    api_key = load_env(api_key.replace("${", "").replace("}", ""))
+                if base_url and "${" in base_url:
+                    base_url = load_env(base_url.replace("${", "").replace("}", ""))
+                if default_model and "${" in default_model:
+                    default_model = load_env(default_model.replace("${", "").replace("}", ""))
+
+                constructor_args = {
+                    "api_key": api_key,
+                    "base_url": base_url,
+                    "default_model": default_model
+                }
+                connector = connector_class(**constructor_args)
             
             # Инициализируем коннектор
-            await connector.initialize(config)
+            connector_config = ConnectorConfigImpl(
+                enabled=config.get("enabled", True),
+                type=config.get("type", ""),
+                api_key=api_key,
+                base_url=base_url,
+                default_model=default_model,
+                capabilities=config.get("capabilities", {})
+            )
+            await connector.initialize(connector_config)
             
             # Проверяем работоспособность
             if not await connector.health_check():

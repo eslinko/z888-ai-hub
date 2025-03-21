@@ -24,36 +24,55 @@ def validator():
 
 
 @pytest.fixture
-def sample_files(tmp_path):
+def temp_dir(tmp_path):
+    """Create temporary directory."""
+    return tmp_path
+
+
+@pytest.fixture
+def sample_files(temp_dir):
     """Create sample files for testing."""
+    files = {
+        'valid_pdf': temp_dir / "valid.pdf",
+        'invalid_pdf': temp_dir / "invalid.pdf",
+        'valid_doc': temp_dir / "valid.docx",
+        'invalid_doc': temp_dir / "invalid.doc",
+        'unknown': temp_dir / "unknown.txt",
+        'valid.txt': temp_dir / "valid.txt",
+        'invalid.exe': temp_dir / "invalid.exe",
+        'large.pdf': temp_dir / "large.pdf",
+        'small.txt': temp_dir / "small.txt"
+    }
+    
     # Копируем реальный PDF файл
-    pdf_file = tmp_path / "valid.pdf"
-    with open(TEST_PDF_PATH, 'rb') as src, open(pdf_file, 'wb') as dst:
+    with open(TEST_PDF_PATH, 'rb') as src, open(files['valid_pdf'], 'wb') as dst:
         dst.write(src.read())
     
     # Create invalid PDF
-    invalid_pdf = tmp_path / "invalid.pdf"
-    invalid_pdf.write_text("This is not a PDF file")
+    files['invalid_pdf'].write_text("This is not a PDF file")
     
     # Create valid DOC
-    doc_file = tmp_path / "valid.docx"
-    doc_file.write_text("This is a test document")
+    files['valid_doc'].write_text("This is a test document")
+    
+    # Create valid TXT
+    files['valid.txt'].write_text("A" * 200)  # Достаточно длинный текст
+    
+    # Create small TXT
+    files['small.txt'].write_text("A" * 50)  # Слишком короткий текст
+    
+    # Create large PDF
+    files['large.pdf'].write_bytes(b"X" * (11 * 1024 * 1024))  # 11MB
     
     # Create invalid DOC
-    invalid_doc = tmp_path / "invalid.doc"
-    invalid_doc.write_text("This is not a DOC file")
+    files['invalid_doc'].write_text("This is not a DOC file")
+    
+    # Create invalid EXE
+    files['invalid.exe'].write_bytes(b"Invalid content")
     
     # Create unknown file
-    unknown_file = tmp_path / "unknown.txt"
-    unknown_file.write_text("This is a text file")
+    files['unknown'].write_text("This is a text file")
     
-    return {
-        'valid_pdf': pdf_file,
-        'invalid_pdf': invalid_pdf,
-        'valid_doc': doc_file,
-        'invalid_doc': invalid_doc,
-        'unknown': unknown_file
-    }
+    return files
 
 
 def test_file_type_from_extension():
@@ -86,7 +105,7 @@ def test_validation_result_initialization():
 def test_validate_pdf_file(validator, sample_files):
     """Test PDF file validation."""
     # Test valid PDF
-    result = validator.validate_file(str(sample_files['valid_pdf']))
+    result = validator.validate_file_sync(str(sample_files['valid_pdf']))
     assert result.is_valid is True
     assert result.file_type == FileType.PDF
     assert result.mime_type == 'application/pdf'
@@ -95,7 +114,7 @@ def test_validate_pdf_file(validator, sample_files):
     assert result.metadata['page_count'] > 0
     
     # Test invalid PDF
-    result = validator.validate_file(str(sample_files['invalid_pdf']))
+    result = validator.validate_file_sync(str(sample_files['invalid_pdf']))
     assert result.is_valid is False
     assert result.file_type == FileType.PDF
     assert result.is_readable is False
@@ -105,11 +124,11 @@ def test_validate_pdf_file(validator, sample_files):
 def test_validate_doc_file(validator, sample_files):
     """Test DOC file validation."""
     # Test valid DOC
-    result = validator.validate_file(str(sample_files['valid_doc']))
+    result = validator.validate_file_sync(str(sample_files['valid_doc']))
     assert result.file_type == FileType.DOC
     
     # Test invalid DOC
-    result = validator.validate_file(str(sample_files['invalid_doc']))
+    result = validator.validate_file_sync(str(sample_files['invalid_doc']))
     assert result.is_valid is False
     assert result.file_type == FileType.DOC
     assert result.is_readable is False
@@ -118,7 +137,7 @@ def test_validate_doc_file(validator, sample_files):
 
 def test_validate_unknown_file(validator, sample_files):
     """Test unknown file validation."""
-    result = validator.validate_file(str(sample_files['unknown']))
+    result = validator.validate_file_sync(str(sample_files['unknown']))
     assert result.is_valid is False
     assert result.file_type == FileType.UNKNOWN
     assert result.is_readable is False
@@ -127,14 +146,14 @@ def test_validate_unknown_file(validator, sample_files):
 
 def test_validate_nonexistent_file(validator):
     """Test validation of nonexistent file."""
-    result = validator.validate_file("/nonexistent/file.pdf")
+    result = validator.validate_file_sync("/nonexistent/file.pdf")
     assert result.is_valid is False
     assert result.error_message is not None
 
 
 def test_pdf_metadata(validator):
     """Test PDF metadata extraction."""
-    result = validator.validate_file(TEST_PDF_PATH)
+    result = validator.validate_file_sync(TEST_PDF_PATH)
     assert result.is_valid is True
     assert result.metadata is not None
     assert 'page_count' in result.metadata
@@ -152,7 +171,7 @@ def test_multiple_pdf_files(validator):
     
     for pdf_file in pdf_files:
         pdf_path = os.path.join(SAMPLE_PDFS_DIR, pdf_file)
-        result = validator.validate_file(pdf_path)
+        result = validator.validate_file_sync(pdf_path)
         
         assert result.is_valid is True, f"Failed to validate {pdf_file}"
         assert result.file_type == FileType.PDF
@@ -173,105 +192,94 @@ def file_validator():
     return FileValidator(config)
 
 
-@pytest.fixture
-def sample_files(temp_dir):
-    """Создает тестовые файлы разных типов."""
-    files = {
-        "valid.pdf": b"PDF content" * 1000,
-        "large.pdf": b"X" * (11 * 1024 * 1024),  # 11MB
-        "small.txt": b"Too small",
-        "valid.txt": b"Valid text content" * 1000,
-        "invalid.exe": b"Invalid content"
-    }
-    
-    paths = {}
-    for name, content in files.items():
-        path = os.path.join(temp_dir, name)
-        with open(path, "wb") as f:
-            f.write(content)
-        paths[name] = path
-    
-    return paths
-
-
 @pytest.mark.asyncio
 async def test_validate_file_type(file_validator, sample_files):
     """Тестирует валидацию типа файла."""
     # Проверяем поддерживаемые типы
-    assert await file_validator.validate_file_type(sample_files["valid.pdf"])
-    assert await file_validator.validate_file_type(sample_files["valid.txt"])
+    assert await file_validator.validate_file_type(str(sample_files["valid_pdf"]))
+    assert await file_validator.validate_file_type(str(sample_files["valid.txt"]))
     
     # Проверяем неподдерживаемый тип
-    assert not await file_validator.validate_file_type(sample_files["invalid.exe"])
+    assert not await file_validator.validate_file_type(str(sample_files["invalid.exe"]))
 
 
 @pytest.mark.asyncio
 async def test_validate_file_size(file_validator, sample_files):
     """Тестирует валидацию размера файла."""
     # Проверяем файл допустимого размера
-    assert await file_validator.validate_file_size(sample_files["valid.pdf"])
+    assert await file_validator.validate_file_size(str(sample_files["valid_pdf"]))
     
     # Проверяем слишком большой файл
-    assert not await file_validator.validate_file_size(sample_files["large.pdf"])
+    assert not await file_validator.validate_file_size(str(sample_files["large.pdf"]))
 
 
 @pytest.mark.asyncio
 async def test_validate_text_length(file_validator, sample_files):
     """Тестирует валидацию длины текста."""
     # Проверяем текст допустимой длины
-    assert await file_validator.validate_text_length(sample_files["valid.txt"])
+    assert await file_validator.validate_text_length(str(sample_files["valid.txt"]))
     
     # Проверяем слишком короткий текст
-    assert not await file_validator.validate_text_length(sample_files["small.txt"])
+    assert not await file_validator.validate_text_length(str(sample_files["small.txt"]))
 
 
 @pytest.mark.asyncio
 async def test_validate_file(file_validator, sample_files):
     """Тестирует полную валидацию файла."""
     # Проверяем валидный файл
-    result = await file_validator.validate_file(sample_files["valid.pdf"])
+    result = await file_validator.validate_file(str(sample_files["valid.txt"]))
     assert result["is_valid"]
     assert not result["errors"]
     
     # Проверяем невалидный файл
-    result = await file_validator.validate_file(sample_files["invalid.exe"])
+    result = await file_validator.validate_file(str(sample_files["invalid.exe"]))
     assert not result["is_valid"]
     assert "Unsupported file type" in result["errors"]
 
 
 @pytest.mark.asyncio
-async def test_error_handling(file_validator):
+async def test_error_handling(file_validator, temp_dir):
     """Тестирует обработку ошибок."""
     # Тест на несуществующий файл
     result = await file_validator.validate_file("nonexistent.pdf")
     assert not result["is_valid"]
-    assert "File not found" in result["errors"]
+    assert "File does not exist: nonexistent.pdf" in result["errors"]
+    
+    # Создаем тестовый файл для проверки прав доступа
+    test_file = temp_dir / "test.pdf"
+    test_file.write_text("Test content")
     
     # Тест на ошибку доступа к файлу
-    with patch('os.path.getsize', side_effect=PermissionError):
-        result = await file_validator.validate_file("test.pdf")
+    with patch('os.access', return_value=False):
+        result = await file_validator.validate_file(str(test_file))
         assert not result["is_valid"]
-        assert "Permission denied" in result["errors"]
+        assert "No read permission" in result["errors"]
 
 
 @pytest.mark.asyncio
 async def test_custom_validation_rules(temp_dir):
     """Тестирует пользовательские правила валидации."""
-    # Создаем валидатор с пользовательскими правилами
-    custom_config = {
+    # Создаем файл для тестирования
+    test_file = temp_dir / "test.txt"
+    test_file.write_text("A" * 50)  # 50 символов
+    
+    # Тестируем с разными настройками
+    config = {
         "max_file_size_mb": 1,
-        "supported_extensions": [".custom"],
-        "min_text_length": 10,
-        "max_text_length": 100
+        "supported_extensions": [".txt"],
+        "min_text_length": 100,
+        "max_text_length": 200
     }
-    validator = FileValidator(custom_config)
+    validator = FileValidator(config)
     
-    # Создаем тестовый файл
-    test_file = os.path.join(temp_dir, "test.custom")
-    with open(test_file, "wb") as f:
-        f.write(b"Test content" * 5)
+    result = await validator.validate_file(str(test_file))
+    assert not result["is_valid"]
+    assert "Text length is outside allowed range" in result["errors"]
     
-    # Проверяем валидацию
-    result = await validator.validate_file(test_file)
+    # Меняем настройки
+    config["min_text_length"] = 10
+    validator = FileValidator(config)
+    
+    result = await validator.validate_file(str(test_file))
     assert result["is_valid"]
     assert not result["errors"] 

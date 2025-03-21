@@ -7,7 +7,9 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 import json
 import logging
+import asyncio
 from supabase import create_client, Client
+from supabase.lib.client_options import ClientOptions
 
 from z888_ai_hub.storage.database.models import Document, Paragraph
 from z888_ai_hub.storage.database.exceptions import StorageError
@@ -19,15 +21,41 @@ from z888_ai_hub.config import ServicesConfig
 class SupabaseStorage(IStorage):
     """Supabase storage implementation."""
     
-    def __init__(self):
-        """Initialize Supabase client."""
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        """
+        Initialize Supabase client.
+        
+        Args:
+            config: Optional configuration dictionary. If not provided, will use ServicesConfig.
+                   Expected keys:
+                   - supabase_url: Supabase project URL
+                   - supabase_key: Supabase API key
+        """
         self.logger = setup_logger('SupabaseStorage')
         
         # Load configuration
-        config = ServicesConfig()
+        if config:
+            supabase_url = config.get('supabase_url')
+            supabase_key = config.get('supabase_key')
+            if not supabase_url or not supabase_key:
+                raise ValueError("Config must contain 'supabase_url' and 'supabase_key'")
+        else:
+            services_config = ServicesConfig()
+            supabase_url = services_config.supabase_url
+            supabase_key = services_config.supabase_key
+            
+        options = ClientOptions(
+            schema='public',
+            headers={},
+            auto_refresh_token=True,
+            persist_session=True,
+            postgrest_client_timeout=10
+        )
+        
         self.supabase: Client = create_client(
-            config.supabase_url,
-            config.supabase_key
+            supabase_url,
+            supabase_key,
+            options=options
         )
         self.logger.info("Successfully initialized Supabase client")
     
@@ -59,7 +87,7 @@ class SupabaseStorage(IStorage):
             }
             
             # Save document
-            result = self.supabase.table("documents").insert(doc_data).execute()
+            result = await self.supabase.table("documents").insert(doc_data).execute()
             if not result.data:
                 raise StorageError("Failed to save document")
             
@@ -99,21 +127,25 @@ class SupabaseStorage(IStorage):
                 "embedding": summary_embedding,
                 "type": "summary"
             }
-            result = self.supabase.table("embeddings").insert(summary_data).execute()
+            result = await self.supabase.table("embeddings").insert(summary_data).execute()
             if not result.data:
                 raise StorageError("Failed to save summary embedding")
             
-            # Save paragraph embeddings
-            for i, embedding in enumerate(paragraph_embeddings):
-                para_data = {
-                    "file_id": file_id,
-                    "embedding": embedding,
-                    "type": "paragraph",
-                    "paragraph_index": i
-                }
-                result = self.supabase.table("embeddings").insert(para_data).execute()
+            # Save paragraph embeddings in batches
+            batch_size = 100
+            for i in range(0, len(paragraph_embeddings), batch_size):
+                batch = paragraph_embeddings[i:i + batch_size]
+                para_data = []
+                for j, embedding in enumerate(batch):
+                    para_data.append({
+                        "file_id": file_id,
+                        "embedding": embedding,
+                        "type": "paragraph",
+                        "paragraph_index": i + j
+                    })
+                result = await self.supabase.table("embeddings").insert(para_data).execute()
                 if not result.data:
-                    raise StorageError(f"Failed to save paragraph embedding {i}")
+                    raise StorageError(f"Failed to save paragraph embeddings batch {i//batch_size}")
             
             self.logger.info(f"Successfully saved embeddings for document {file_id}")
             
@@ -135,27 +167,32 @@ class SupabaseStorage(IStorage):
             StorageError: If save fails
         """
         try:
-            # Prepare paragraph data
-            para_data = []
-            for para in paragraphs:
-                para_data.append({
-                    "document_id": para.document_id,
-                    "text": para.text,
-                    "position_in_file": para.position_in_file,
-                    "metadata": para.metadata
-                })
+            # Save paragraphs in batches
+            batch_size = 100
+            saved_paragraphs = []
             
-            # Save paragraphs
-            result = self.supabase.table("paragraphs").insert(para_data).execute()
-            if not result.data:
-                raise StorageError("Failed to save paragraphs")
+            for i in range(0, len(paragraphs), batch_size):
+                batch = paragraphs[i:i + batch_size]
+                para_data = []
+                for para in batch:
+                    para_data.append({
+                        "document_id": para.document_id,
+                        "text": para.text,
+                        "position_in_file": para.position_in_file,
+                        "metadata": para.metadata
+                    })
+                
+                result = await self.supabase.table("paragraphs").insert(para_data).execute()
+                if not result.data:
+                    raise StorageError(f"Failed to save paragraphs batch {i//batch_size}")
+                
+                # Update paragraph IDs
+                for j, saved_para in enumerate(result.data):
+                    batch[j].id = saved_para["id"]
+                    saved_paragraphs.append(batch[j])
             
-            # Update paragraph IDs
-            for i, saved_para in enumerate(result.data):
-                paragraphs[i].id = saved_para["id"]
-            
-            self.logger.info(f"Successfully saved {len(paragraphs)} paragraphs")
-            return paragraphs
+            self.logger.info(f"Successfully saved {len(saved_paragraphs)} paragraphs")
+            return saved_paragraphs
             
         except Exception as e:
             self.logger.error(f"Error saving paragraphs: {str(e)}")
@@ -175,14 +212,14 @@ class SupabaseStorage(IStorage):
             StorageError: If retrieval fails
         """
         try:
-            result = self.supabase.table("documents").select("*").eq("file_id", file_id).execute()
+            result = await self.supabase.table("documents").select("*").eq("file_id", file_id).execute()
             if not result.data:
                 return None
             
             doc_data = result.data[0]
             
             # Get paragraphs
-            para_result = self.supabase.table("paragraphs").select("*").eq("document_id", doc_data["id"]).execute()
+            para_result = await self.supabase.table("paragraphs").select("*").eq("document_id", doc_data["id"]).execute()
             paragraphs = []
             if para_result.data:
                 for para_data in para_result.data:
@@ -229,24 +266,115 @@ class SupabaseStorage(IStorage):
         """
         try:
             # Get document ID
-            result = self.supabase.table("documents").select("id").eq("file_id", file_id).execute()
+            result = await self.supabase.table("documents").select("id").eq("file_id", file_id).execute()
             if not result.data:
                 return False
             
             document_id = result.data[0]["id"]
             
             # Delete paragraphs
-            self.supabase.table("paragraphs").delete().eq("document_id", document_id).execute()
+            await self.supabase.table("paragraphs").delete().eq("document_id", document_id).execute()
             
             # Delete embeddings
-            self.supabase.table("embeddings").delete().eq("file_id", file_id).execute()
+            await self.supabase.table("embeddings").delete().eq("file_id", file_id).execute()
             
             # Delete document
-            self.supabase.table("documents").delete().eq("file_id", file_id).execute()
+            await self.supabase.table("documents").delete().eq("file_id", file_id).execute()
             
             self.logger.info(f"Successfully deleted document {file_id}")
             return True
             
         except Exception as e:
             self.logger.error(f"Error deleting document {file_id}: {str(e)}")
-            raise StorageError(f"Failed to delete document: {str(e)}") 
+            raise StorageError(f"Failed to delete document: {str(e)}")
+            
+    async def get_document_by_path(self, file_path: str) -> Optional[Document]:
+        """
+        Get document by file path.
+        
+        Args:
+            file_path: Document file path
+            
+        Returns:
+            Document or None if not found
+            
+        Raises:
+            StorageError: If retrieval fails
+        """
+        try:
+            result = await self.supabase.table("documents").select("*").eq("file_path", file_path).execute()
+            if not result.data:
+                return None
+                
+            return await self.get_document(result.data[0]["file_id"])
+            
+        except Exception as e:
+            self.logger.error(f"Error getting document by path {file_path}: {str(e)}")
+            raise StorageError(f"Failed to get document by path: {str(e)}")
+            
+    async def get_documents(self, limit: int = 100, offset: int = 0) -> List[Document]:
+        """
+        Get list of documents with pagination.
+        
+        Args:
+            limit: Maximum number of documents to return
+            offset: Number of documents to skip
+            
+        Returns:
+            List[Document]: List of documents
+            
+        Raises:
+            StorageError: If retrieval fails
+        """
+        try:
+            result = await self.supabase.table("documents").select("*").range(offset, offset + limit - 1).execute()
+            if not result.data:
+                return []
+                
+            documents = []
+            for doc_data in result.data:
+                doc = await self.get_document(doc_data["file_id"])
+                if doc:
+                    documents.append(doc)
+                    
+            return documents
+            
+        except Exception as e:
+            self.logger.error(f"Error getting documents: {str(e)}")
+            raise StorageError(f"Failed to get documents: {str(e)}")
+            
+    async def search_documents(self, query: str, limit: int = 10) -> List[Document]:
+        """
+        Search documents by text query.
+        
+        Args:
+            query: Search query
+            limit: Maximum number of documents to return
+            
+        Returns:
+            List[Document]: List of matching documents
+            
+        Raises:
+            StorageError: If search fails
+        """
+        try:
+            # Use full text search on summary and paragraphs
+            result = await self.supabase.rpc(
+                'search_documents',
+                {'search_query': query, 'result_limit': limit}
+            ).execute()
+            
+            if not result.data:
+                return []
+                
+            documents = []
+            for doc_data in result.data:
+                doc = await self.get_document(doc_data["file_id"])
+                if doc:
+                    documents.append(doc)
+                    
+            return documents
+            
+        except Exception as e:
+            self.logger.error(f"Error searching documents: {str(e)}")
+            raise StorageError(f"Failed to search documents: {str(e)}") 

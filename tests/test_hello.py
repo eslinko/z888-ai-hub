@@ -1,8 +1,8 @@
 import os
 import pytest
-from client.ai_client import AIClient
-from utils.logging_utils import setup_logger
-from utils.env_loader import load_env
+from z888_ai_hub.client.ai_client import AIClient
+from z888_ai_hub.utils.logging_utils import setup_logger
+from z888_ai_hub.utils.env_loader import load_env
 
 # Настройка логгера для тестов
 logger = setup_logger('TestHello')
@@ -47,11 +47,15 @@ def test_api_keys():
     
     logger.info("All API keys are valid")
 
-def test_pdf_files():
+@pytest.mark.asyncio
+async def test_pdf_files():
     """
     Проверка наличия и доступности PDF файлов для тестирования
     """
     logger.info("Starting PDF files check")
+    
+    # Создаем экземпляр AIClient
+    client = AIClient()
     
     # Проверяем существование директории
     assert os.path.exists(SAMPLE_PDFS_DIR), f"Sample PDFs directory not found: {SAMPLE_PDFS_DIR}"
@@ -68,6 +72,7 @@ def test_pdf_files():
         assert os.access(pdf_path, os.R_OK), f"Cannot read PDF file: {pdf_path}"
         logger.debug(f"✓ {pdf_file} - readable")
         logger.info("Starting text extraction...")
-        extracted_text = ai_client.extract_text_from_image(pdf_path)
+        extracted_text = await client.extract_text_from_image(pdf_path)
+        assert extracted_text is not None and len(extracted_text) > 0, f"Failed to extract text from {pdf_file}"
     
-    logger.info("✅ All PDF files are accessible")
+    logger.info("✅ All PDF files are accessible and text extraction successful")

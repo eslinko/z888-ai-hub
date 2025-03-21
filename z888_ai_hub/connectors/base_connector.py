@@ -23,6 +23,24 @@ class ConnectorConfig(Protocol):
     default_model: Optional[str]
     capabilities: Dict[str, Any]
 
+class ConnectorConfigImpl:
+    """Конкретная реализация конфигурации коннектора"""
+    def __init__(
+        self,
+        enabled: bool,
+        type: str,
+        api_key: str,
+        base_url: str,
+        default_model: Optional[str],
+        capabilities: Dict[str, Any]
+    ):
+        self.enabled = enabled
+        self.type = type
+        self.api_key = api_key
+        self.base_url = base_url
+        self.default_model = default_model
+        self.capabilities = capabilities
+
 class ISummaryCapable:
     """Интерфейс для коннекторов, поддерживающих генерацию summary"""
     @abstractmethod

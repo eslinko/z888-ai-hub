@@ -2,12 +2,13 @@ import os
 import json
 import asyncio
 import aiohttp
-from mistralai import Mistral
+from mistralai.client import MistralClient
+from mistralai.models.chat_completion import ChatMessage
 from typing import Any, Dict, Optional, List
 from z888_ai_hub.connectors.base_connector import (
     BaseConnector,
-    ConnectorCapability,
     ConnectorConfig,
+    ConnectorCapability,
     ISummaryCapable,
     IVectorizationCapable
 )
@@ -35,7 +36,7 @@ class MistralConnector(BaseConnector, ISummaryCapable):
         default_model = default_model or "mistral-large-latest"
 
         super().__init__(api_key, base_url, default_model)
-        self.client = Mistral(api_key=self.api_key)
+        self.client = MistralClient(api_key=self.api_key)
         self.logger = setup_logger('MistralConnector', log_to_file=True)
         self.logger.info(f"Initialized Mistral connector with model: {default_model}")
         
@@ -46,6 +47,9 @@ class MistralConnector(BaseConnector, ISummaryCapable):
             ConnectorCapability.CLASSIFICATION,
             ConnectorCapability.OCR
         ]
+
+        self.last_request_time = 0
+        self.min_request_interval = 1  # минимальный интервал между запросами в секундах
 
     @property
     def name(self) -> str:
@@ -72,8 +76,8 @@ class MistralConnector(BaseConnector, ISummaryCapable):
             return False
             
         # Проверяем специфичные для Mistral параметры
-        if not config.api_key or not config.api_key.startswith("mistral-"):
-            self.logger.error("Invalid Mistral API key format")
+        if not config.api_key:
+            self.logger.error("Mistral API key is required")
             return False
             
         return True
@@ -97,26 +101,28 @@ class MistralConnector(BaseConnector, ISummaryCapable):
             self.logger.error(f"Health check failed: {str(e)}")
             return False
 
-    async def call_api(self, payload: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Makes a request to the Mistral API.
-
-        :param payload: Dictionary with request parameters.
-        :return: API response as a dictionary.
-        """
+    async def call_api(self, payload: dict) -> dict:
         try:
-            self.logger.debug(f"Making API call to Mistral with model: {payload.get('model')}")
-            response = await self.client.chat.completions.create(
-                model=payload["model"],
-                messages=payload["messages"],
-                temperature=payload.get("temperature", 0.0),
-                stream=False
-            )
-            self.logger.debug("Successfully received response from Mistral API")
+            # Если это OCR запрос с изображением
+            if any(isinstance(msg.get("content"), list) for msg in payload["messages"]):
+                response = self.client.chat(
+                    model=self.default_model,
+                    messages=payload["messages"],
+                    temperature=0.1  # Lower temperature for more accurate OCR
+                )
+            else:
+                # Для обычных текстовых запросов
+                messages = [ChatMessage(role=msg["role"], content=msg["content"]) 
+                          for msg in payload["messages"]]
+                response = self.client.chat(
+                    model=self.default_model,
+                    messages=messages,
+                    temperature=payload.get("temperature", 0.7)
+                )
+            
             return {"text": response.choices[0].message.content}
         except Exception as e:
-            error_msg = f"Mistral API Error: {e}"
-            self.logger.error(error_msg, exc_info=True)
+            self.logger.error(f"Error calling Mistral API: {str(e)}")
             return {"error": str(e)}
 
     async def generate(self, prompt: str, model: Optional[str] = None) -> str:
@@ -177,6 +183,16 @@ class MistralConnector(BaseConnector, ISummaryCapable):
         self.logger.info(f"Successfully generated summary, length: {len(summary)} characters")
         return summary
 
+    async def _wait_for_rate_limit(self):
+        """
+        Ожидает необходимое время между запросами для соблюдения ограничений API
+        """
+        current_time = asyncio.get_event_loop().time()
+        time_since_last_request = current_time - self.last_request_time
+        if time_since_last_request < self.min_request_interval:
+            await asyncio.sleep(self.min_request_interval - time_since_last_request)
+        self.last_request_time = asyncio.get_event_loop().time()
+
     async def upload_pdf_to_mistral(self, file_path: str) -> Optional[str]:
         """
         Uploads a PDF file to Mistral and returns the signed URL for OCR processing.
@@ -184,8 +200,7 @@ class MistralConnector(BaseConnector, ISummaryCapable):
         :param file_path: Path to the PDF file to upload.
         :return: Signed URL to access the uploaded document.
         """
-        UPLOAD_URL = "https://api.mistral.ai/v1/files"
-        SIGNED_URL_ENDPOINT = "https://api.mistral.ai/v1/files/{file_id}/url"
+        await self._wait_for_rate_limit()
         
         if not os.path.exists(file_path):
             self.logger.error(f"File not found: {file_path}")
@@ -197,7 +212,7 @@ class MistralConnector(BaseConnector, ISummaryCapable):
             }
 
             # Upload file
-            self.logger.debug(f"Uploading file to {UPLOAD_URL}")
+            self.logger.debug(f"Uploading file to {self.base_url}/v1/files")
             async with aiohttp.ClientSession() as session:
                 # Step 1: Upload PDF
                 form = aiohttp.FormData()
@@ -209,7 +224,11 @@ class MistralConnector(BaseConnector, ISummaryCapable):
                 )
                 form.add_field('purpose', 'ocr')
 
-                async with session.post(UPLOAD_URL, data=form, headers=headers) as response:
+                async with session.post(
+                    f"{self.base_url}/v1/files",
+                    data=form,
+                    headers=headers
+                ) as response:
                     response_text = await response.text()
                     self.logger.debug(f"Upload response: {response_text}")
                     
@@ -224,7 +243,7 @@ class MistralConnector(BaseConnector, ISummaryCapable):
                         return None
 
                     # Step 2: Get signed URL
-                    signed_url_endpoint = SIGNED_URL_ENDPOINT.format(file_id=file_id)
+                    signed_url_endpoint = f"{self.base_url}/v1/files/{file_id}/url"
                     self.logger.debug(f"Getting signed URL from {signed_url_endpoint}")
                     
                     async with session.get(signed_url_endpoint, headers=headers) as response:
@@ -242,87 +261,75 @@ class MistralConnector(BaseConnector, ISummaryCapable):
             self.logger.error(f"Error during PDF upload: {str(e)}", exc_info=True)
             return None
 
-    async def extract_text(self, file_path: str, model: Optional[str] = None) -> str:
+    async def process_image(self, image_url: str, model: Optional[str] = None) -> str:
         """
-        Извлекает текст из файла используя Mistral OCR.
+        Обрабатывает изображение через Mistral API.
         
-        :param file_path: Путь к файлу
-        :param model: AI модель для использования (по умолчанию mistral-ocr-latest)
+        :param image_url: URL изображения
+        :param model: Модель для обработки
         :return: Извлеченный текст
         """
-        async def progress_indicator():
-            seconds = 0
-            while True:
-                seconds += 1
-                print(f"Обработка... прошло {seconds} секунд", flush=True)
-                await asyncio.sleep(1)
-
+        model = model or self.default_model
+        self.logger.info(f"Обработка изображения с моделью {model}")
+        
         try:
-            # Создаем и запускаем индикатор прогресса
-            progress_task = asyncio.create_task(progress_indicator())
-            
-            if not os.path.exists(file_path):
-                raise FileNotFoundError(f"Файл не найден: {file_path}")
-            
-            model = model or "mistral-ocr-latest"
-            self.logger.info(f"Начинаю OCR обработку файла: {file_path} с моделью {model}")
-            
-            # Загружаем файл и получаем signed URL
-            self.logger.info("Шаг 1: Загрузка файла и получение signed URL...")
-            signed_url = await self.upload_pdf_to_mistral(file_path)
-            if not signed_url:
-                raise Exception("Не удалось загрузить файл и получить signed URL")
-            self.logger.info(f"Получен signed URL: {signed_url[:100]}...")
-            
-            # Подготавливаем payload для OCR запроса
-            self.logger.info("Шаг 2: Подготовка OCR запроса...")
             payload = {
                 "model": model,
-                "document": {
-                    "type": "document_url",
-                    "document_url": signed_url,
-                    "document_name": os.path.basename(file_path)
-                },
-                "pages": None,
-                "include_image_base64": False,
-                "image_limit": None,
-                "image_min_size": None
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Extract all text from this Telegram chat screenshot, including timestamps, sender names, and message content. Format the output as a list of messages, where each message has a timestamp, sender, and text content."
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": image_url
+                            }
+                        ]
+                    }
+                ],
+                "temperature": 0.1  # Lower temperature for more accurate OCR
             }
-            self.logger.debug(f"Подготовлен payload для OCR: {json.dumps(payload, indent=2)}")
-
-            # Выполняем OCR запрос
-            self.logger.info("Шаг 3: Отправка OCR запроса...")
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.base_url}/v1/ocr",
-                    headers={"Authorization": f"Bearer {self.api_key}"},
-                    json=payload
-                ) as response:
-                    response_json = await response.json()
-                    self.logger.debug(f"Получен ответ от OCR API: {json.dumps(response_json, indent=2)}")
-                    
-                    if response.status != 200:
-                        raise Exception(f"Ошибка OCR API: {response_json.get('detail', 'Unknown error')}")
-                    
-                    # Извлекаем текст из всех страниц
-                    self.logger.info("Шаг 4: Обработка результатов OCR...")
-                    pages = response_json.get("pages", [])
-                    extracted_text = ""
-                    
-                    for i, page in enumerate(pages, 1):
-                        page_text = page.get("text", "")
-                        extracted_text += f"Страница {i}:\n{page_text}\n\n"
-                    
-                    self.logger.info(f"Успешно извлечен текст из {len(pages)} страниц")
-                    return extracted_text.strip()
-                    
+            
+            response = await self.call_api(payload)
+            
+            if "error" in response:
+                raise Exception(f"Ошибка обработки изображения: {response['error']}")
+                
+            return response.get("text", "")
+            
         except Exception as e:
-            self.logger.error(f"Ошибка при OCR обработке: {str(e)}", exc_info=True)
+            self.logger.error(f"Ошибка при обработке изображения: {str(e)}")
             raise
-        finally:
-            # Отменяем индикатор прогресса
-            if 'progress_task' in locals():
-                progress_task.cancel()
+
+    async def extract_text(self, image_path: str, model: Optional[str] = None) -> str:
+        """
+        Извлекает текст из изображения с помощью OCR.
+        
+        :param image_path: Путь к файлу изображения
+        :param model: Опциональная модель для OCR
+        :return: Извлеченный текст
+        """
+        model = model or self.default_model
+        self.logger.info(f"Начинаю OCR обработку файла: {image_path} с моделью {model}")
+        
+        try:
+            # Шаг 1: Загрузка файла и получение signed URL
+            self.logger.info("Шаг 1: Загрузка файла и получение signed URL...")
+            signed_url = await self.upload_pdf_to_mistral(image_path)
+            if not signed_url:
+                raise Exception("Failed to get signed URL")
+            self.logger.info(f"Получен signed URL: {signed_url}...")
+            
+            # Шаг 2: Обработка изображения
+            self.logger.info("Шаг 2: Обработка изображения...")
+            return await self.process_image(signed_url, model)
+            
+        except Exception as e:
+            self.logger.error(f"Ошибка при OCR обработке: {str(e)}")
+            raise
 
     def classify(self, text: str, labels: list, model: Optional[str] = None) -> str:
         """

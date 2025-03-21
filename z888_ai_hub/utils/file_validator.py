@@ -5,7 +5,7 @@ File validation utilities.
 import os
 import magic
 from enum import Enum
-from typing import Tuple, Dict, Optional
+from typing import Tuple, Dict, Optional, Union
 from dataclasses import dataclass
 from pypdf import PdfReader
 from docx import Document
@@ -53,7 +53,7 @@ class FileValidator:
     """File validation utilities."""
 
     # Допустимые MIME-типы для каждого типа файла
-    MIME_TYPES = {
+    DEFAULT_MIME_TYPES = {
         FileType.PDF: ['application/pdf'],
         FileType.DOC: [
             'application/msword',
@@ -62,10 +62,35 @@ class FileValidator:
         ]
     }
 
-    def __init__(self):
-        """Initialize FileValidator."""
+    # Значения по умолчанию для конфигурации
+    DEFAULT_CONFIG = {
+        "max_file_size_mb": 10,
+        "supported_extensions": [".pdf", ".doc", ".docx"],
+        "min_text_length": 0,
+        "max_text_length": 1000000
+    }
+
+    def __init__(self, config: Optional[Dict] = None):
+        """
+        Initialize FileValidator.
+        
+        Args:
+            config: Optional configuration dictionary with the following keys:
+                   - max_file_size_mb: Maximum file size in MB
+                   - supported_extensions: List of supported file extensions
+                   - min_text_length: Minimum text length
+                   - max_text_length: Maximum text length
+        """
         self.logger = setup_logger('FileValidator')
         self.magic = magic.Magic(mime=True)
+        
+        # Объединяем конфигурацию по умолчанию с пользовательской
+        self.config = self.DEFAULT_CONFIG.copy()
+        if config:
+            self.config.update(config)
+
+        # Устанавливаем MIME-типы
+        self.mime_types = self.DEFAULT_MIME_TYPES.copy()
 
     def check_file_access(self, file_path: str) -> Tuple[bool, Optional[str]]:
         """
@@ -91,14 +116,142 @@ class FileValidator:
             
             # Проверяем права на чтение
             if not os.access(abs_path, os.R_OK):
-                return False, f"No read permission for file: {file_path}"
+                return False, "No read permission"
             
             return True, None
             
         except Exception as e:
             return False, f"Error checking file access: {str(e)}"
 
-    def validate_file(self, file_path: str) -> ValidationResult:
+    def validate_file_type(self, file_path: str) -> bool:
+        """
+        Проверяет, является ли тип файла поддерживаемым.
+
+        Args:
+            file_path: Путь к файлу
+
+        Returns:
+            bool: True если тип файла поддерживается
+        """
+        try:
+            extension = os.path.splitext(file_path)[1].lower()
+            return extension in self.config["supported_extensions"]
+        except Exception as e:
+            self.logger.error(f"Error validating file type: {str(e)}")
+            return False
+
+    def validate_file_size(self, file_path: str) -> bool:
+        """
+        Проверяет, не превышает ли размер файла максимально допустимый.
+
+        Args:
+            file_path: Путь к файлу
+
+        Returns:
+            bool: True если размер файла в пределах допустимого
+        """
+        try:
+            size_mb = os.path.getsize(file_path) / (1024 * 1024)  # Конвертируем в МБ
+            return size_mb <= self.config["max_file_size_mb"]
+        except Exception as e:
+            self.logger.error(f"Error validating file size: {str(e)}")
+            return False
+
+    def validate_text_length(self, file_path: str) -> bool:
+        """
+        Проверяет, находится ли длина текста в файле в допустимых пределах.
+
+        Args:
+            file_path: Путь к файлу
+
+        Returns:
+            bool: True если длина текста в допустимых пределах
+        """
+        try:
+            # Определяем тип файла
+            file_type = FileType.from_extension(os.path.splitext(file_path)[1])
+            
+            # Для PDF файлов используем PdfReader
+            if file_type == FileType.PDF:
+                try:
+                    reader = PdfReader(file_path)
+                    text = ""
+                    for page in reader.pages:
+                        text += page.extract_text()
+                except Exception as e:
+                    self.logger.error(f"Error extracting text from PDF: {str(e)}")
+                    return False
+            
+            # Для DOC файлов используем python-docx
+            elif file_type == FileType.DOC:
+                try:
+                    doc = Document(file_path)
+                    text = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+                except Exception as e:
+                    self.logger.error(f"Error extracting text from DOC: {str(e)}")
+                    return False
+            
+            # Для текстовых файлов читаем напрямую
+            else:
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        text = f.read()
+                except UnicodeDecodeError:
+                    # Если файл не является текстовым, считаем что длина текста в пределах нормы
+                    return True
+                except Exception as e:
+                    self.logger.error(f"Error reading text file: {str(e)}")
+                    return False
+            
+            text_length = len(text)
+            return self.config["min_text_length"] <= text_length <= self.config["max_text_length"]
+            
+        except Exception as e:
+            self.logger.error(f"Error validating text length: {str(e)}")
+            return False
+
+    def validate_file(self, file_path: str) -> Dict[str, Union[bool, list]]:
+        """
+        Выполняет полную валидацию файла.
+
+        Args:
+            file_path: Путь к файлу
+
+        Returns:
+            Dict с результатами валидации:
+            {
+                "is_valid": bool,
+                "errors": list[str]
+            }
+        """
+        errors = []
+        
+        # Проверяем доступ к файлу
+        is_accessible, error = self.check_file_access(file_path)
+        if not is_accessible:
+            return {
+                "is_valid": False,
+                "errors": [error or "File not found"]
+            }
+        
+        # Проверяем тип файла
+        if not self.validate_file_type(file_path):
+            errors.append("Unsupported file type")
+        
+        # Проверяем размер файла
+        if not self.validate_file_size(file_path):
+            errors.append("File size exceeds maximum allowed")
+        
+        # Проверяем длину текста
+        if not self.validate_text_length(file_path):
+            errors.append("Text length is outside allowed range")
+        
+        return {
+            "is_valid": len(errors) == 0,
+            "errors": errors
+        }
+
+    def validate_file_sync(self, file_path: str) -> ValidationResult:
         """
         Validate file and determine its type and readability.
 
@@ -122,7 +275,7 @@ class FileValidator:
             file_type = FileType.from_extension(os.path.splitext(file_path)[1])
             
             # Проверяем соответствие MIME-типа
-            if file_type != FileType.UNKNOWN and mime_type not in self.MIME_TYPES[file_type]:
+            if file_type != FileType.UNKNOWN and mime_type not in self.mime_types[file_type]:
                 return ValidationResult(
                     is_valid=False,
                     file_type=file_type,

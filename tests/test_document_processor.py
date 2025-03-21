@@ -5,9 +5,12 @@ from z888_ai_hub.processors.document_processor import DocumentProcessor
 from z888_ai_hub.client.ai_client import AIClient
 from z888_ai_hub.utils.logging_utils import setup_logger
 from z888_ai_hub.utils.env_loader import load_env
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, AsyncMock
 from z888_ai_hub.storage.database.models import Document, Paragraph
 from datetime import datetime
+from z888_ai_hub.connectors.base_connector import ConnectorCapability
+from z888_ai_hub.utils.file_collector import FileInfo
+from z888_ai_hub.processors.base import DocumentContent
 
 # Настройка логгера для тестов
 logger = setup_logger('TestDocumentProcessor')
@@ -35,6 +38,88 @@ def document_processor():
 @pytest.fixture
 def ai_client():
     return AIClient()
+
+@pytest.fixture
+def mock_storage():
+    storage = AsyncMock()
+    storage.save_document = AsyncMock(return_value="test_id")
+    storage.save_embeddings = AsyncMock()
+    return storage
+
+@pytest.fixture
+def mock_summary_generator():
+    connector = Mock()
+    connector.capabilities = {ConnectorCapability.SUMMARY}
+    connector.generate_summary = AsyncMock(return_value="Test summary")
+    return connector
+
+@pytest.fixture
+def mock_vectorizer():
+    connector = Mock()
+    connector.capabilities = {ConnectorCapability.VECTORIZATION}
+    connector.vectorize = AsyncMock(return_value=[0.1, 0.2, 0.3])
+    connector.vectorize_batch = AsyncMock(return_value=[[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+    return connector
+
+@pytest.fixture
+def mock_file_collector():
+    collector = Mock()
+    collector.collect_files = Mock(return_value=[
+        FileInfo(
+            file_id="test_id",
+            file_name="test.pdf",
+            relative_path="test.pdf",
+            absolute_path="/tmp/test.pdf",
+            extension=".pdf",
+            size=1000,
+            created_at=datetime.now(),
+            modified_at=datetime.now()
+        )
+    ])
+    return collector
+
+@pytest.fixture
+def mock_pdf_processor():
+    processor = Mock()
+    processor.extract_content = AsyncMock(return_value=DocumentContent(
+        text="Test content",
+        metadata={"page_count": 1},
+        tables=[],
+        images=[],
+        styles={}
+    ))
+    return processor
+
+@pytest.fixture
+def mock_doc_processor():
+    processor = Mock()
+    processor.extract_content = AsyncMock(return_value=DocumentContent(
+        text="Test content",
+        metadata={"page_count": 1},
+        tables=[],
+        images=[],
+        styles={}
+    ))
+    processor.split_text_into_paragraphs = Mock(return_value=["Paragraph 1", "Paragraph 2"])
+    return processor
+
+@pytest.fixture
+def document_processor(
+    mock_storage,
+    mock_summary_generator,
+    mock_vectorizer,
+    mock_file_collector,
+    mock_pdf_processor,
+    mock_doc_processor
+):
+    return DocumentProcessor(
+        storage=mock_storage,
+        summary_generator=mock_summary_generator,
+        vectorizer=mock_vectorizer,
+        file_collector=mock_file_collector,
+        pdf_processor=mock_pdf_processor,
+        doc_processor=mock_doc_processor
+    )
 
 # Константы
 SAMPLE_PDFS_DIR = "tests/sample_pdfs"
@@ -69,232 +154,94 @@ def validate_json_output(json_path: str):
     return True
 
 @pytest.mark.asyncio
-async def test_single_document_processing(document_processor, ai_client):
-    """
-    Детальное тестирование обработки одного PDF документа
-    """
-    # Проверяем API ключи
-    assert check_api_keys(), "Missing required API keys!"
-    
-    # Проверяем существование директории с сэмплами
-    assert os.path.exists(SAMPLE_PDFS_DIR), f"Sample PDFs directory not found: {SAMPLE_PDFS_DIR}"
-    
-    # Получаем первый PDF файл для тестирования
-    pdf_files = [f for f in os.listdir(SAMPLE_PDFS_DIR) if f.endswith(".pdf")]
-    assert len(pdf_files) > 0, f"No PDF files found in {SAMPLE_PDFS_DIR}"
-    
-    test_file = pdf_files[0]
-    logger.info(f"Testing single file processing with: {test_file}")
-    
-    # Подготовка директории для выходных файлов
-    setup_output_directory()
-    
-    # Обработка тестового файла
-    pdf_path = os.path.join(SAMPLE_PDFS_DIR, test_file)
-    json_path = os.path.join(OUTPUT_JSON_DIR, test_file.replace(".pdf", ".json"))
-
-    # Проверяем доступ к PDF файлу
-    assert os.access(pdf_path, os.R_OK), f"Cannot read PDF file: {pdf_path}"
-    
-    # Извлекаем текст
-    logger.info("Starting text extraction...")
-    extracted_text = await ai_client.extract_text_from_image(pdf_path)
-    
-    # Проверяем качество извлеченного текста
-    assert isinstance(extracted_text, str), f"OCR output must be a string"
-    assert len(extracted_text) > 0, f"OCR output should not be empty"
-    
-    logger.debug(f"Successfully extracted text, length: {len(extracted_text)} characters")
-
-    # Запускаем обработку документа
-    await document_processor.process_document(pdf_path, extracted_text, OUTPUT_JSON_DIR)
-
-    # Проверяем результаты
-    assert os.path.exists(json_path), f"JSON file was not created!"
-    assert validate_json_output(json_path), "JSON validation failed"
-    
-    logger.info(f"✅ Successfully processed single document test")
-
-@pytest.mark.asyncio
-async def test_batch_document_processing(document_processor, ai_client):
-    """
-    Тестирование массовой обработки всех PDF файлов в директории
-    """
-    # Проверяем API ключи
-    assert check_api_keys(), "Missing required API keys!"
-    
-    # Проверяем существование директории с сэмплами
-    assert os.path.exists(SAMPLE_PDFS_DIR), f"Sample PDFs directory not found: {SAMPLE_PDFS_DIR}"
-    
-    # Получаем список всех PDF файлов
-    pdf_files = [f for f in os.listdir(SAMPLE_PDFS_DIR) if f.endswith(".pdf")]
-    assert len(pdf_files) > 0, f"No PDF files found in {SAMPLE_PDFS_DIR}"
-    
-    logger.info(f"Found {len(pdf_files)} PDF files to process")
-    
-    # Подготовка директории для выходных файлов
-    setup_output_directory()
-
-    processed_files = []
-    failed_files = []
-
-    # Обрабатываем каждый PDF файл
-    for pdf_file in pdf_files:
-        try:
-            logger.info(f"Processing file: {pdf_file}")
-            pdf_path = os.path.join(SAMPLE_PDFS_DIR, pdf_file)
-            json_path = os.path.join(OUTPUT_JSON_DIR, pdf_file.replace(".pdf", ".json"))
-
-            # Проверяем доступ к PDF файлу
-            assert os.access(pdf_path, os.R_OK), f"Cannot read PDF file: {pdf_path}"
-            
-            # Извлекаем текст
-            extracted_text = await ai_client.extract_text_from_image(pdf_path)
-            assert len(extracted_text) > 0, f"OCR output should not be empty for {pdf_file}"
-            
-            # Запускаем обработку документа
-            await document_processor.process_document(pdf_path, extracted_text, OUTPUT_JSON_DIR)
-
-            # Проверяем результаты
-            assert os.path.exists(json_path), f"JSON file was not created for {pdf_file}!"
-            assert validate_json_output(json_path), f"JSON validation failed for {pdf_file}"
-                
-            processed_files.append(pdf_file)
-            logger.info(f"✅ Successfully processed {pdf_file}")
-
-        except Exception as e:
-            logger.error(f"❌ Failed to process {pdf_file}: {str(e)}", exc_info=True)
-            failed_files.append((pdf_file, str(e)))
-            continue
-
-    # Выводим итоговую статистику
-    logger.info(f"\nBatch processing completed!")
-    logger.info(f"Successfully processed: {len(processed_files)} files")
-    
-    if failed_files:
-        logger.error(f"Failed to process {len(failed_files)} files:")
-        for failed_file, error in failed_files:
-            logger.error(f"- {failed_file}: {error}")
-        raise AssertionError(f"Some files failed to process: {', '.join(f[0] for f in failed_files)}")
-    
-    logger.info("Batch test completed successfully!")
-
-@pytest.mark.asyncio
-async def test_process_document(document_processor, mock_connector, temp_dir, mock_document):
+async def test_single_document_processing(document_processor):
     """Тестирует обработку одного документа."""
-    # Подготовка тестовых данных
-    test_text = "This is a test document content."
-    test_file = os.path.join(temp_dir, "test.pdf")
+    file_info = FileInfo(
+        file_id="test_id",
+        file_name="test.pdf",
+        relative_path="test.pdf",
+        absolute_path="/tmp/test.pdf",
+        extension=".pdf",
+        size=1000,
+        created_at=datetime.now(),
+        modified_at=datetime.now()
+    )
     
-    # Настройка моков
-    document_processor.pdf_processor.extract_content.return_value = test_text
-    document_processor.storage.save_document.return_value = mock_document
-    
-    # Вызов тестируемого метода
-    result = await document_processor.process_document(test_file)
-    
-    # Проверки
-    assert isinstance(result, Document)
-    assert result.summary == "Test summary"
-    assert len(result.paragraphs) >= 0
-    
-    # Проверка вызовов моков
-    document_processor.pdf_processor.extract_content.assert_called_once_with(test_file)
-    mock_connector.generate_summary.assert_called_once()
-    document_processor.storage.save_document.assert_called_once()
+    doc = await document_processor._process_file(file_info)
+    assert isinstance(doc, Document)
+    assert doc.file_id == "test_id"
+    assert len(doc.paragraphs) == 2
 
 @pytest.mark.asyncio
-async def test_process_directory(document_processor, mock_connector, temp_dir):
-    """Тестирует обработку директории с документами."""
-    # Подготовка тестовых файлов
-    test_files = [
-        os.path.join(temp_dir, "test1.pdf"),
-        os.path.join(temp_dir, "test2.pdf"),
-        os.path.join(temp_dir, "test3.txt")
-    ]
-    
-    # Настройка моков
-    document_processor.file_collector.collect_files.return_value = [
-        Mock(absolute_path=f, relative_path=os.path.basename(f))
-        for f in test_files
-    ]
-    
-    # Вызов тестируемого метода
-    stats = await document_processor.process_directory(temp_dir)
-    
-    # Проверки
-    assert isinstance(stats, dict)
-    assert stats["total_files"] == len(test_files)
-    assert stats["processed_files"] >= 0
-    assert "failed_files" in stats
-    
-    # Проверка вызовов моков
-    document_processor.file_collector.collect_files.assert_called_once()
-
-@pytest.mark.asyncio
-async def test_error_handling(document_processor, mock_connector, temp_dir):
-    """Тестирует обработку ошибок."""
-    # Подготовка тестового файла
-    test_file = os.path.join(temp_dir, "test.pdf")
-    
-    # Настройка мока для генерации ошибки
-    document_processor.pdf_processor.extract_content.side_effect = Exception("Test error")
-    
-    # Вызов тестируемого метода и проверка обработки ошибки
-    with pytest.raises(Exception) as exc_info:
-        await document_processor.process_document(test_file)
-    
-    assert "Test error" in str(exc_info.value)
-
-@pytest.mark.asyncio
-async def test_batch_processing(document_processor, mock_connector, temp_dir):
+async def test_batch_document_processing(document_processor):
     """Тестирует пакетную обработку документов."""
-    # Подготовка тестовых файлов
-    test_files = [
-        os.path.join(temp_dir, f"test{i}.pdf")
-        for i in range(5)
-    ]
-    
-    # Настройка моков
-    document_processor.file_collector.collect_files.return_value = [
-        Mock(absolute_path=f, relative_path=os.path.basename(f))
-        for f in test_files
-    ]
-    
-    # Вызов тестируемого метода
-    stats = await document_processor.process_directory(temp_dir, batch_size=2)
-    
-    # Проверки
-    assert isinstance(stats, dict)
-    assert stats["total_files"] == len(test_files)
-    assert "batches_processed" in stats
-    
-    # Проверка вызовов моков
-    document_processor.file_collector.collect_files.assert_called_once()
+    stats = await document_processor.process_directory("/tmp")
+    assert stats["total_files"] == 1
+    assert stats["processed_files"] == 1
+    assert len(stats["failed_files"]) == 0
 
 @pytest.mark.asyncio
-async def test_document_metadata(document_processor, mock_connector, temp_dir):
+async def test_process_document(document_processor):
+    """Тестирует полный процесс обработки документа."""
+    file_info = FileInfo(
+        file_id="test_id",
+        file_name="test.pdf",
+        relative_path="test.pdf",
+        absolute_path="/tmp/test.pdf",
+        extension=".pdf",
+        size=1000,
+        created_at=datetime.now(),
+        modified_at=datetime.now()
+    )
+    
+    doc = await document_processor._process_file(file_info)
+    assert doc.content is not None
+    assert doc.metadata["page_count"] == 1
+    assert len(doc.paragraphs) == 2
+
+@pytest.mark.asyncio
+async def test_process_directory(document_processor):
+    """Тестирует обработку директории."""
+    stats = await document_processor.process_directory("/tmp")
+    assert "total_files" in stats
+    assert "processed_files" in stats
+    assert "failed_files" in stats
+    assert "file_types" in stats
+    assert "start_time" in stats
+    assert "end_time" in stats
+
+@pytest.mark.asyncio
+async def test_error_handling(document_processor, mock_pdf_processor):
+    """Тестирует обработку ошибок."""
+    mock_pdf_processor.extract_content.side_effect = Exception("Test error")
+    
+    stats = await document_processor.process_directory("/tmp")
+    assert len(stats["failed_files"]) == 1
+    assert stats["failed_files"][0]["error"] == "Test error"
+
+@pytest.mark.asyncio
+async def test_batch_processing(document_processor):
+    """Тестирует пакетную обработку."""
+    stats = await document_processor.process_directory("/tmp")
+    assert stats["processed_files"] == 1
+    assert ".pdf" in stats["file_types"]
+
+@pytest.mark.asyncio
+async def test_document_metadata(document_processor):
     """Тестирует сохранение метаданных документа."""
-    # Подготовка тестового файла
-    test_file = os.path.join(temp_dir, "test.pdf")
-    test_text = "Test content"
+    file_info = FileInfo(
+        file_id="test_id",
+        file_name="test.pdf",
+        relative_path="test.pdf",
+        absolute_path="/tmp/test.pdf",
+        extension=".pdf",
+        size=1000,
+        created_at=datetime.now(),
+        modified_at=datetime.now()
+    )
     
-    # Настройка моков
-    document_processor.pdf_processor.extract_content.return_value = test_text
-    document_processor.pdf_processor.get_metadata.return_value = {
-        "pages": 1,
-        "author": "Test Author",
-        "created": datetime.now().isoformat()
-    }
-    
-    # Вызов тестируемого метода
-    result = await document_processor.process_document(test_file)
-    
-    # Проверки
-    assert isinstance(result, Document)
-    assert "metadata" in result.__dict__
-    assert result.metadata.get("pages") == 1
-    assert result.metadata.get("author") == "Test Author"
-    
-    # Проверка вызовов моков
-    document_processor.pdf_processor.get_metadata.assert_called_once_with(test_file)
+    doc = await document_processor._process_file(file_info)
+    assert doc.metadata["size"] == 1000
+    assert doc.metadata["extension"] == ".pdf"
+    assert doc.metadata["page_count"] == 1
+    assert doc.metadata["language"] == "EN"

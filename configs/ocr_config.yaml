@@ -1,0 +1,26 @@
+connectors:
+  mistral:
+    api_key: ${MISTRAL_API_KEY}
+    base_url: https://api.mistral.ai
+    default_model: pixtral-12b-latest
+
+processing:
+  max_file_size: 52428800  # 50MB
+  max_dimensions: [3840, 2160]  # 4K resolution
+  image_extensions:
+    - ".png"
+    - ".jpg"
+    - ".jpeg"
+    - ".webp"
+
+parsing:
+  time_pattern: "\\d{1,2}:\\d{2}(?:\\:\\d{2})?"
+  sender_pattern: "^([^:]+):"
+  link_pattern: "https?://[^\\s<>\"']+|www\\.[^\\s<>\"']+"
+  max_retries: 3
+  retry_delay: 5
+
+output:
+  format: json
+  pretty_print: true
+  save_intermediate: false 

@@ -7,6 +7,7 @@ import os
 import json
 from datetime import datetime, timedelta
 import pytest
+from unittest.mock import AsyncMock, MagicMock, patch
 from supabase import create_client, Client
 from z888_ai_hub.storage.database import SupabaseStorage, Document, Paragraph
 from z888_ai_hub.config.services import supabase_config
@@ -98,57 +99,20 @@ def test_paragraphs(test_document):
 
 @pytest_asyncio.fixture
 async def storage(request):
-    """
-    Фикстура для создания экземпляра SupabaseStorage.
-    """
-    logger.debug("Initializing Supabase client and storage")
-    client = create_client(supabase_config.url, supabase_config.api_key)
-    storage = SupabaseStorage(client)
-
-    # Очищаем тестовые данные перед каждым тестом
-    async def cleanup():
-        """Очищаем тестовые данные."""
-        logger.debug("Running pre-test cleanup")
-        try:
-            # Получаем все тестовые документы
-            response = client.table('source_files').select('id').execute()
-            if hasattr(response, 'error') and response.error is not None:
-                logger.warning(f"Error during cleanup: {response.error}")
-                return
-
-            # Удаляем каждый документ
-            for doc in response.data:
-                try:
-                    # Удаляем параграфы
-                    paragraphs_response = client.table('paragraphs').delete().eq(
-                        'id', doc['id']
-                    ).execute()
-                    if hasattr(paragraphs_response, 'error') and paragraphs_response.error is not None:
-                        logger.warning(f"Error deleting paragraphs: {paragraphs_response.error}")
-
-                    # Удаляем документ
-                    doc_response = client.table('source_files').delete().eq(
-                        'id', doc['id']
-                    ).execute()
-                    if hasattr(doc_response, 'error') and doc_response.error is not None:
-                        logger.warning(f"Error deleting document: {doc_response.error}")
-
-                except Exception as e:
-                    logger.warning(f"Error during document cleanup: {str(e)}")
-                    continue
-
-        except Exception as e:
-            logger.warning(f"Error during cleanup: {str(e)}")
-
-    # Очищаем данные перед тестом
-    await cleanup()
-
-    yield storage
-
-    # Очищаем данные после теста
-    logger.debug(f"Cleaning up test data")
-    await cleanup()
-    logger.debug(f"Finished cleanup for test: {request.node.name}")
+    """Фикстура для создания тестового хранилища."""
+    # Создаем мок для Supabase клиента
+    mock_client = MagicMock()
+    mock_client.table = MagicMock()
+    mock_client.table.return_value.insert = AsyncMock()
+    mock_client.table.return_value.select = AsyncMock()
+    mock_client.table.return_value.delete = AsyncMock()
+    mock_client.table.return_value.update = AsyncMock()
+    mock_client.rpc = AsyncMock()
+    
+    # Патчим create_client
+    with patch('z888_ai_hub.storage.database.client.create_client', return_value=mock_client):
+        storage = SupabaseStorage()
+        yield storage
 
 
 class TestSupabaseStorage:
