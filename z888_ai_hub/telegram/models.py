@@ -1,5 +1,5 @@
 """
-Data models for Telegram chat parsing.
+Data models for Telegram chat processing.
 """
 
 from dataclasses import dataclass
@@ -24,13 +24,11 @@ class TelegramMessage:
 
 @dataclass
 class TelegramChat:
-    """Represents a complete Telegram chat."""
+    """Represents a Telegram chat with messages."""
     messages: List[TelegramMessage]
-    metadata: Dict[str, Any]
+    metadata: Dict[str, Any] = None
 
     def __post_init__(self):
-        if self.messages is None:
-            self.messages = []
         if self.metadata is None:
             self.metadata = {}
 

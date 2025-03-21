@@ -10,7 +10,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from z888_ai_hub.utils.telegram.parser import TelegramChatParser
+from z888_ai_hub.telegram.parser import TelegramChatParser
 from z888_ai_hub.utils.logging_utils import setup_logger
 from z888_ai_hub.utils.env_loader import load_dotenv
 from z888_ai_hub.connectors.factory import ConnectorFactory

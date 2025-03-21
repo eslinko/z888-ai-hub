@@ -10,7 +10,8 @@ from typing import List, Optional, Dict, Any
 from pathlib import Path
 
 from .models import TelegramMessage, TelegramChat, ProcessingResult
-from .image_utils import (
+from .config import DEFAULT_CONFIG
+from .utils.image import (
     validate_image,
     get_images_in_directory,
     check_image_requirements
@@ -35,10 +36,10 @@ class TelegramChatParser:
             config: Optional configuration dictionary
         """
         self.ocr_connector = ocr_connector
-        self.config = config or {}
+        self.config = config or DEFAULT_CONFIG
         self.logger = logging.getLogger(__name__)
         
-        # Регулярные выражения для парсинга
+        # Regular expressions for parsing
         self.time_pattern = re.compile(r'(\d{1,2}:\d{2}(?::\d{2})?)')
         self.sender_pattern = re.compile(r'^([^:]+):')
         self.link_pattern = re.compile(r'https?://[^\s<>"]+|www\.[^\s<>"]+')
@@ -117,13 +118,13 @@ class TelegramChatParser:
         if not validate_image(image_path):
             return False
             
-        max_file_size = self.config.get('processing', {}).get('max_file_size', 52428800)
-        max_dimensions = tuple(self.config.get('processing', {}).get('max_dimensions', [1920, 1080]))
+        max_file_size = self.config.get('processing', {}).get('max_file_size')
+        max_dimensions = tuple(self.config.get('processing', {}).get('max_dimensions'))
         
         if not check_image_requirements(image_path, max_size=max_dimensions, max_file_size=max_file_size):
             return False
             
-        return True 
+        return True
 
     async def _process_single_image(self, image_path: str, image_order: int) -> List[TelegramMessage]:
         """
@@ -137,18 +138,18 @@ class TelegramChatParser:
             List[TelegramMessage]: List of extracted messages
         """
         try:
-            # Получаем текст через OCR
+            # Get text through OCR
             raw_text = await self.ocr_connector.extract_text(image_path)
             
-            # Разбиваем текст на сообщения
+            # Split text into messages
             messages = []
             current_message = []
             
             for line in raw_text.split('\n'):
-                # Если строка начинается с имени отправителя, это новое сообщение
+                # If line starts with sender name, it's a new message
                 if self.sender_pattern.match(line):
                     if current_message:
-                        # Обрабатываем предыдущее сообщение
+                        # Process previous message
                         message_text = '\n'.join(current_message)
                         parsed_data = self._parse_message_text(message_text)
                         
@@ -161,13 +162,13 @@ class TelegramChatParser:
                             position_in_image=len(messages)
                         ))
                     
-                    # Начинаем новое сообщение
+                    # Start new message
                     current_message = [line]
                 else:
-                    # Продолжаем текущее сообщение
+                    # Continue current message
                     current_message.append(line)
             
-            # Обрабатываем последнее сообщение
+            # Process last message
             if current_message:
                 message_text = '\n'.join(current_message)
                 parsed_data = self._parse_message_text(message_text)
@@ -198,13 +199,13 @@ class TelegramChatParser:
         Returns:
             Dict[str, Any]: Parsed message components
         """
-        # Извлекаем метаданные
+        # Extract metadata
         metadata = self._extract_metadata(text)
         
-        # Извлекаем ссылки
+        # Extract links
         links = self._extract_links(text)
         
-        # Очищаем текст от метаданных и ссылок
+        # Clean text from metadata and links
         clean_text = text
         if metadata.get('sender'):
             clean_text = clean_text.replace(f"{metadata['sender']}:", "").strip()
@@ -217,44 +218,25 @@ class TelegramChatParser:
         }
 
     def _extract_metadata(self, text: str) -> Dict[str, Any]:
-        """
-        Extract metadata from message text.
-        
-        Args:
-            text: Message text
-            
-        Returns:
-            Dict[str, Any]: Extracted metadata
-        """
+        """Extract metadata from message text."""
         metadata = {}
         
-        # Извлекаем отправителя
-        sender_match = self.sender_pattern.match(text)
-        if sender_match:
-            metadata['sender'] = sender_match.group(1).strip()
-        
-        # Извлекаем время
+        # Extract timestamp
         time_match = self.time_pattern.search(text)
         if time_match:
             try:
                 time_str = time_match.group(1)
-                # Предполагаем, что время в формате HH:MM или HH:MM:SS
-                if len(time_str.split(':')) == 2:
-                    time_str += ':00'
-                metadata['timestamp'] = datetime.strptime(time_str, '%H:%M:%S').time()
-            except ValueError as e:
-                self.logger.warning(f"Could not parse time {time_str}: {str(e)}")
+                metadata['timestamp'] = datetime.strptime(time_str, '%H:%M:%S')
+            except ValueError:
+                pass
+        
+        # Extract sender
+        sender_match = self.sender_pattern.match(text)
+        if sender_match:
+            metadata['sender'] = sender_match.group(1)
         
         return metadata
 
     def _extract_links(self, text: str) -> List[str]:
-        """
-        Extract links from message text.
-        
-        Args:
-            text: Message text
-            
-        Returns:
-            List[str]: List of extracted links
-        """
+        """Extract links from message text."""
         return self.link_pattern.findall(text) 

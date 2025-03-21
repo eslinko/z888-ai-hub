@@ -2,17 +2,11 @@ import pytest
 import os
 from z888_ai_hub.client.ai_client import AIClient
 from z888_ai_hub.utils.logging_utils import setup_logger
-from z888_ai_hub.connectors.mistral import MistralConnector
 
 @pytest.fixture
 def ai_client():
     """Fixture to initialize AIClient for testing."""
     return AIClient()
-
-@pytest.fixture
-def mistral_connector():
-    """Fixture to initialize MistralConnector for testing."""
-    return MistralConnector()
 
 @pytest.fixture
 def logger():
@@ -24,7 +18,7 @@ def pdf_samples_dir():
     """Fixture to provide path to sample PDFs directory."""
     return "tests/sample_pdfs"
 
-@pytest.mark.asyncio
+@pytest.mark.integration
 @pytest.mark.parametrize("pdf_file", [
     "2.1 - EN - MKD Plus leaflet black 240809001.pdf",
     "3.1 - EN- MKD Premium 30 leaflet black 240809001.pdf",
@@ -32,47 +26,70 @@ def pdf_samples_dir():
     "Math.pdf",
     "Med_6.3.pdf"
 ])
-async def test_mistral_ocr(mistral_connector, logger, pdf_samples_dir, pdf_file):
+async def test_mistral_ocr_integration(ai_client, logger, pdf_samples_dir, pdf_file):
     """
-    Tests OCR text extraction from multiple PDFs using MistralConnector.
+    Integration test for OCR text extraction from multiple PDFs using Mistral.
+    Tests the full pipeline from file upload to text extraction.
     """
     pdf_path = os.path.join(pdf_samples_dir, pdf_file)
     assert os.path.exists(pdf_path), f"Test file {pdf_path} not found!"
 
-    # Step 1: Upload PDF and get signed URL
-    logger.info(f"Uploading PDF file: {pdf_file}")
-
-    # Step 2: Extract text using OCR
-    logger.info(f"Starting OCR extraction for {pdf_file}")
-    extracted_text = await mistral_connector.extract_text(pdf_path)
+    logger.info(f"Starting OCR integration test for: {pdf_file}")
     
+    # Extract text using OCR through AIClient
+    extracted_text = await ai_client.extract_text_from_pdf(pdf_path)
+    
+    # Validate results
     assert isinstance(extracted_text, str), "OCR output should be a string"
     assert len(extracted_text) > 0, "OCR output should not be empty"
 
-    # Добавляем подробную статистику
+    # Log detailed statistics
     total_chars = len(extracted_text)
     total_lines = len(extracted_text.splitlines())
-    logger.info(f"OCR статистика для {pdf_file}:")
-    logger.info(f"- Всего символов: {total_chars}")
-    logger.info(f"- Всего строк: {total_lines}")
-    logger.info(f"- Первые 500 символов: {extracted_text[:500]}...")
-    logger.info(f"- Последние 500 символов: {extracted_text[-500:] if len(extracted_text) > 500 else extracted_text}")
+    logger.info(f"OCR statistics for {pdf_file}:")
+    logger.info(f"- Total characters: {total_chars}")
+    logger.info(f"- Total lines: {total_lines}")
+    logger.info(f"- First 500 chars: {extracted_text[:500]}...")
+    logger.info(f"- Last 500 chars: {extracted_text[-500:] if len(extracted_text) > 500 else extracted_text}")
 
-@pytest.mark.asyncio
-async def test_upload_pdf_to_mistral(mistral_connector, logger, pdf_samples_dir):
+@pytest.mark.integration
+async def test_mistral_pdf_upload_integration(ai_client, logger, pdf_samples_dir):
     """
-    Tests PDF upload functionality to Mistral API.
+    Integration test for PDF upload functionality.
+    Tests the complete upload process through AIClient.
     """
     pdf_file = "Med_6.3.pdf"
     pdf_path = os.path.join(pdf_samples_dir, pdf_file)
     
     assert os.path.exists(pdf_path), f"Test file {pdf_path} not found!"
 
-    logger.info(f"Testing PDF upload for: {pdf_file}")
-    signed_url = await mistral_connector.upload_pdf_to_mistral(pdf_path)
+    logger.info(f"Testing PDF upload integration for: {pdf_file}")
     
+    # Upload PDF through AIClient
+    signed_url = await ai_client.upload_pdf(pdf_path)
+    
+    # Validate results
     assert signed_url is not None, "Failed to get signed URL"
     assert isinstance(signed_url, str), "Signed URL should be a string"
     assert signed_url.startswith("https://"), "Signed URL should be a valid HTTPS URL"
     
-    logger.info(f"Successfully got signed URL for {pdf_file}: {signed_url}")
+    logger.info(f"Successfully uploaded PDF and got signed URL: {signed_url}")
+
+@pytest.mark.integration
+async def test_mistral_text_generation_integration(ai_client, logger):
+    """
+    Integration test for text generation using Mistral.
+    Tests the complete text generation pipeline through AIClient.
+    """
+    prompt = "Explain the concept of quantum computing in simple terms."
+    
+    logger.info("Testing text generation integration")
+    
+    # Generate text through AIClient
+    generated_text = await ai_client.generate_text(prompt)
+    
+    # Validate results
+    assert isinstance(generated_text, str), "Generated text should be a string"
+    assert len(generated_text) > 0, "Generated text should not be empty"
+    
+    logger.info(f"Successfully generated text of length: {len(generated_text)}")

@@ -1,0 +1,39 @@
+You are an AI assistant that needs to learn about the Z888 AI Hub project. This is a library for working with various AI services (Mistral, Anthropic, etc.).
+
+Your task is to study the project following this plan:
+
+1. Study project structure:
+   - Read README.md for general understanding
+   - Study Technical Architecture.md to understand the architecture
+   - Review directory and file structure
+
+2. Study documentation:
+   - Read docs/examples.md to understand usage
+   - Study docs/api.md to understand the API
+   - Review docs/configuration.md to understand configuration
+
+3. Study code:
+   - Start with base classes (BaseConnector, AIClient)
+   - Study connector implementations (Mistral, Anthropic)
+   - Review document processors and storage
+
+4. Study tests:
+   - Review unit tests to understand implementation details
+   - Study integration tests to understand component interaction
+   - Pay attention to test data and fixtures
+
+5. Build understanding:
+   - How components interact with each other
+   - What design patterns are used
+   - What limitations and features different connectors have
+
+After studying, you should:
+- Understand project architecture
+- Know all main components
+- Be able to explain how each component works
+- Understand limitations and implementation specifics
+- Be able to answer questions about the project
+
+Start by studying README.md and let me know when you're ready for the next step.
+
+After completing the initial study, please ask me in which language you should continue our communication (English or Russian).

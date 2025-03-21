@@ -1,3 +1,7 @@
+"""
+Common configuration for all tests.
+"""
+
 import os
 import pytest
 import tempfile
@@ -7,14 +11,50 @@ from z888_ai_hub.connectors.base_connector import BaseConnector
 from z888_ai_hub.processors.document_processor import DocumentProcessor
 from z888_ai_hub.storage.database.models import Document
 from z888_ai_hub.utils.logging_utils import setup_logger
+from datetime import datetime
 
-logger = setup_logger('TestFixtures')
+logger = setup_logger('Tests')
 
-@pytest.fixture
-def temp_dir() -> Generator[str, None, None]:
-    """Создает временную директорию для тестов."""
-    with tempfile.TemporaryDirectory() as tmp_dir:
-        yield tmp_dir
+def pytest_configure(config):
+    """Настраивает pytest для всех тестов."""
+    # Добавляем маркеры
+    config.addinivalue_line(
+        "markers",
+        "unit: mark test as a unit test"
+    )
+    config.addinivalue_line(
+        "markers",
+        "integration: mark test as an integration test"
+    )
+    config.addinivalue_line(
+        "markers",
+        "asyncio: mark test as an async test"
+    )
+
+@pytest.fixture(scope="session")
+def test_root():
+    """Возвращает корневую директорию тестов."""
+    return os.path.dirname(os.path.abspath(__file__))
+
+@pytest.fixture(scope="session")
+def sample_files_dir(test_root):
+    """Возвращает путь к директории с тестовыми файлами."""
+    return os.path.join(test_root, "sample_files")
+
+@pytest.fixture(scope="session")
+def temp_dir(test_root):
+    """Возвращает путь к временной директории для тестов."""
+    return os.path.join(test_root, "temp")
+
+@pytest.fixture(scope="session")
+def test_start_time():
+    """Возвращает время начала тестов."""
+    return datetime.now()
+
+@pytest.fixture(scope="session")
+def test_id():
+    """Генерирует уникальный идентификатор для тестов."""
+    return f"test_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
 @pytest.fixture
 def mock_connector() -> BaseConnector:

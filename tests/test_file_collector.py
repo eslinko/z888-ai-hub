@@ -510,4 +510,142 @@ def test_real_pdf_collection(temp_dir):
         assert file_info.validation_result.mime_type == 'application/pdf', \
             f"Wrong MIME type for {file_info.relative_path}: {file_info.validation_result.mime_type}"
         assert file_info.validation_result.metadata.get('page_count', 0) > 0, \
-            f"No pages found in {file_info.relative_path}" 
+            f"No pages found in {file_info.relative_path}"
+
+
+class TestFileCollectorIntegration:
+    """Integration test cases for FileCollector class."""
+
+    @pytest.fixture
+    def test_dir(self):
+        """Create a temporary directory with test files."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Copy sample PDFs to temp directory
+            sample_pdfs = [f for f in os.listdir(SAMPLE_PDFS_DIR) if f.endswith('.pdf')]
+            assert len(sample_pdfs) > 0, "No PDF files found in sample directory"
+            
+            # Copy first PDF file as test1.pdf
+            src = os.path.join(SAMPLE_PDFS_DIR, sample_pdfs[0])
+            dst = os.path.join(temp_dir, "test1.pdf")
+            shutil.copy2(src, dst)
+            
+            # Create test DOC files
+            create_test_file(os.path.join(temp_dir, "test2.doc"))
+            create_test_file(os.path.join(temp_dir, "test3.docx"))
+            create_test_file(os.path.join(temp_dir, "test4.txt"))
+            
+            # Create nested directory
+            nested_dir = os.path.join(temp_dir, "nested")
+            os.makedirs(nested_dir)
+            
+            # Copy second PDF file to nested directory
+            if len(sample_pdfs) > 1:
+                src = os.path.join(SAMPLE_PDFS_DIR, sample_pdfs[1])
+            else:
+                src = os.path.join(SAMPLE_PDFS_DIR, sample_pdfs[0])
+            dst = os.path.join(nested_dir, "nested1.pdf")
+            shutil.copy2(src, dst)
+            
+            create_test_file(os.path.join(nested_dir, "nested2.doc"))
+            
+            yield temp_dir
+
+    @pytest.mark.integration
+    def test_file_collection_with_validation(self, test_dir):
+        """Integration test for file collection with content validation."""
+        collector = FileCollector(test_dir, validate_content=True)
+        files = list(collector.collect_files())
+        
+        # Check that only valid files were collected
+        assert len(files) > 0
+        for file_info in files:
+            assert isinstance(file_info, FileInfo)
+            assert file_info.validation_result is not None
+            assert file_info.is_accessible
+
+    @pytest.mark.integration
+    def test_nested_directories(self, test_dir):
+        """Integration test for file collection from nested directories."""
+        collector = FileCollector(test_dir)
+        files = list(collector.collect_files())
+        
+        # Check that files from nested directories were collected
+        nested_files = [f for f in files if "nested" in f.relative_path]
+        assert len(nested_files) > 0
+
+    @pytest.mark.integration
+    def test_file_type_statistics(self, test_dir):
+        """Integration test for file type statistics collection."""
+        collector = FileCollector(test_dir, validate_content=True)
+        list(collector.collect_files())  # Consume generator to update statistics
+        
+        stats = collector.get_statistics()
+        
+        # Check general statistics
+        assert stats['total_files'] > 0
+        assert stats['processed_files'] > 0
+        assert 'file_types' in stats
+        
+        # Check file type distribution
+        file_types = stats['file_types']
+        assert '.pdf' in file_types
+        assert '.doc' in file_types
+        assert '.docx' in file_types
+
+    @pytest.mark.integration
+    def test_file_permissions(self, test_dir):
+        """Integration test for file permissions handling."""
+        if os.name != 'nt':  # Skip on Windows
+            # Create file without read permissions
+            no_access_file = os.path.join(test_dir, "no_access.pdf")
+            create_test_file(no_access_file, mode=0)
+            
+            collector = FileCollector(test_dir)
+            files = list(collector.collect_files())
+            
+            # Check that file without permissions is not included
+            assert not any(f.path == no_access_file for f in files)
+            
+            # Cleanup
+            os.chmod(no_access_file, 0o644)
+
+    @pytest.mark.integration
+    def test_large_file_handling(self, test_dir):
+        """Integration test for handling large files."""
+        # Create a large file
+        large_file = os.path.join(test_dir, "large.pdf")
+        with open(large_file, 'wb') as f:
+            f.write(b'0' * (1024 * 1024 * 10))  # 10MB file
+        
+        collector = FileCollector(test_dir, max_file_size=1024 * 1024)  # 1MB limit
+        files = list(collector.collect_files())
+        
+        # Check that large file is not included
+        assert not any(f.path == large_file for f in files)
+
+    @pytest.mark.integration
+    def test_file_collection_with_custom_extensions(self, test_dir):
+        """Integration test for file collection with custom extensions."""
+        collector = FileCollector(test_dir, allowed_extensions={'.txt'})
+        files = list(collector.collect_files())
+        
+        # Check that only .txt files were collected
+        assert all(f.extension == '.txt' for f in files)
+        assert len(files) > 0
+
+    @pytest.mark.integration
+    def test_file_collection_with_skip_unreadable(self, test_dir):
+        """Integration test for file collection with skip_unreadable option."""
+        if os.name != 'nt':  # Skip on Windows
+            # Create unreadable file
+            unreadable_file = os.path.join(test_dir, "unreadable.pdf")
+            create_test_file(unreadable_file, mode=0)
+            
+            collector = FileCollector(test_dir, skip_unreadable=True)
+            files = list(collector.collect_files())
+            
+            # Check that unreadable file is skipped
+            assert not any(f.path == unreadable_file for f in files)
+            
+            # Cleanup
+            os.chmod(unreadable_file, 0o644) 

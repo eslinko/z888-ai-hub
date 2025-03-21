@@ -4,9 +4,10 @@ Utilities for processing Telegram chat screenshots.
 
 import os
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from PIL import Image
 import logging
+from ..config import DEFAULT_CONFIG
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ def validate_image(image_path: str) -> bool:
         return False
 
 
-def get_image_size(image_path: str) -> Optional[tuple]:
+def get_image_size(image_path: str) -> Optional[Tuple[int, int]]:
     """
     Get image dimensions.
     
@@ -58,7 +59,7 @@ def get_images_in_directory(directory: str) -> List[str]:
     Returns:
         List[str]: List of image file paths
     """
-    image_extensions = {'.png', '.jpg', '.jpeg', '.webp'}
+    image_extensions = DEFAULT_CONFIG['image']['extensions']
     image_files = []
     
     try:
@@ -71,7 +72,11 @@ def get_images_in_directory(directory: str) -> List[str]:
         return []
 
 
-def check_image_requirements(image_path: str, max_size: tuple = (1920, 1080), max_file_size: int = 52428800) -> bool:
+def check_image_requirements(
+    image_path: str,
+    max_size: Optional[Tuple[int, int]] = None,
+    max_file_size: Optional[int] = None
+) -> bool:
     """
     Check if image meets size requirements.
     
@@ -83,13 +88,17 @@ def check_image_requirements(image_path: str, max_size: tuple = (1920, 1080), ma
     Returns:
         bool: True if image meets requirements, False otherwise
     """
-    # Проверяем размер файла
+    # Get default values from config if not provided
+    max_size = max_size or DEFAULT_CONFIG['image']['max_size']
+    max_file_size = max_file_size or DEFAULT_CONFIG['image']['max_file_size']
+    
+    # Check file size
     file_size = os.path.getsize(image_path)
     if file_size > max_file_size:
         logger.warning(f"Image {image_path} exceeds maximum file size requirements")
         return False
         
-    # Проверяем размеры изображения
+    # Check image dimensions
     size = get_image_size(image_path)
     if not size:
         return False

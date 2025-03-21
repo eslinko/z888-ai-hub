@@ -1,0 +1,2314 @@
+{
+  "success": true,
+  "processing_time": 120.9989287853241,
+  "total_images": 10,
+  "processed_images": 10,
+  "failed_images": 0,
+  "error": null,
+  "chat": {
+    "messages": [
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "20 March",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Anyone using MCP servers like composio.dev with Cursor?\n\n2. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": "19:44:00",
+        "sender": "- **Timestamp**",
+        "text": "19:44",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Anyone using MCP servers like composio.dev with Cursor?",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Do you have some example use cases? I've been playing around with MCP but maybe my workflows are just not a good fit\n\n3. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": "19:44:00",
+        "sender": "- **Timestamp**",
+        "text": "19:44",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Valtan owner",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Anyone using MCP servers like composio.dev with Cursor?",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "I've just tested it with some plugins they have on GitHub — We're gonna cover MCP in the next event — including how to create your own\n\n4. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": "19:43:00",
+        "sender": "- **Timestamp**",
+        "text": "19:43",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Do you have some example use cases? I've been playing around with MCP but maybe my workflows are...\n\n5. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Today",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "the use case is that anything that supports OpenAI specification can be wrapped into a tool, eg anything potentially on rapidapi.com\n\n6. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": "07:36:00",
+        "sender": "- **Timestamp**",
+        "text": "07:36",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "Even more value unlocks with Cursor if you set up the rules correctly. Generic+project specifics rules. ...",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "I will buy you lunch or dinner in Tallinn. (pick a place) if you stop developing in PHP and move over to Python, life will be so much more beautiful, I promise...\n\n7. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": "07:37:00",
+        "sender": "- **Timestamp**",
+        "text": "07:37",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 25
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "on MCP have a look at these - https://github.com/punkpeye/awesome-mcp-servers\n\n8. **Message**",
+        "links": [
+          "https://github.com/punkpeye/awesome-mcp-servers"
+        ],
+        "image_order": 0,
+        "position_in_image": 26
+      },
+      {
+        "timestamp": "07:37:00",
+        "sender": "- **Timestamp**",
+        "text": "07:37",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 27
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "GitHub",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 28
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "punkpeye/awesome-mcp-servers: A collection of MCP servers.",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 29
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "A collection of MCP servers. Contribute to punkpeye/awesome-mcp-servers development by creating an account on GitHub.\n\n9. **Message**",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 30
+      },
+      {
+        "timestamp": "07:37:00",
+        "sender": "- **Timestamp**",
+        "text": "07:37",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 31
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "punkpeye/awesome-mcp-servers",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 32
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "A collection of MCP servers.",
+        "links": [],
+        "image_order": 0,
+        "position_in_image": 33
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"https://github.com/public-apis/public-apis (maybe out of date slightly but worth a look)\"",
+        "links": [
+          "https://github.com/public-apis/public-apis"
+        ],
+        "image_order": 1,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n2. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"GitHub - public-apis/public-apis: A collective list of free APIs. Contribute to public-apis/public-apis development by creating an account on GitHub.\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n3. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"finally for UX, would consider these, seem to be winning - https://github.com/assistant-ui/assistant-ui and https://github.com/langchain-ai/open-canvas\"",
+        "links": [
+          "https://github.com/assistant-ui/assistant-ui",
+          "https://github.com/langchain-ai/open-canvas"
+        ],
+        "image_order": 1,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n4. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"GitHub - assistant-ui/assistant-ui: Typescript/ React Library for AI Chat 🤖 Typescript/React Library for AI Chat 🤖 Contribute to assistant-ui/assistant-ui development by creating an account on GitHub.\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n5. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Some say that UX development will disappear largely, you'll just have a simplified chat interface like we do on Grok.com, Claude.ai, ChatGPT, Mistral LeChat etc, they all look pretty much the same / converge into one\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n6. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Andry Pedak\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Julian Kallivee",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n7. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"I will buy you lunch or dinner in Tallinn (pick a place) if you developing in PHP and move over to Py...\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Julian Kallivee",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided\n\n8. **Message**",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Yes, Python is great, I work in both 😊\"",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "Andry Pedak",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 1,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the list of messages from the Telegram chat screenshot",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     ```\n\n2. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak (AP)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Andry Pedak\n     Yes, Python is great, I work in both 😊\n     Phew, was getting worried there for a while....why would you need then PHP as well? Just out of curiosity...\n     ```\n\n3. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     Phew, was getting worried there for a while....why would you need then PHP as well? Just out of curiosity...\n     I started in PHP way back, first language, and still manage and develop WordPress e-commerce and Laravel projects\n     ```\n\n4. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak (AP)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Andry Pedak",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "I would be interested in finding a use case and hacking a demo together specifically for some data from Estonia public APIs, using data from https",
+        "text": "//avaandmed.eesti.ee\n     ```\n\n5. **Message**",
+        "links": [
+          "https://avaandmed.eesti.ee"
+        ],
+        "image_order": 2,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     Andry Pedak\n     I would be interested in finding a use case and hacking a demo together specifically for some data from...\n     that's a great idea, what use cases would you think would be popular?\n     look at fastft.ml, you might look and some say it has potential as the first Python front end framework\n     ```\n\n6. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Andry Pedak (AP)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Andry Pedak\n     Julian Kaljuvee\n     that's a great idea, what use cases would you think would be popular?\n     Let me consult with my agents 😊\n     ```\n\n7. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     Personal use case for some time was connecting to e-arveldaja bookkeeping platform to query info directly, second phase would be to insert invoices, clients via chat (now even voice!), third phase total automation?\n     If I think about the exchanges I have with the bookkeeper, all requests can be resolved by some API requests 😊\n     ```\n\n8. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     yes it's a total mess, everywhere not only in Estonia, but most accountants only know Directo etc, you won't teach them old tricks, so perhaps just to build an AI accountant, but you need hooks into banks via open banking and that's also a tricky, not every application can easily get access\n     every country has their own accounting software and even giants like Xero.com, Quickbooks don't manage to break into Germany say",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 25
+      },
+      {
+        "timestamp": null,
+        "sender": "this in itself needs a GenAI on top of it; who can review this",
+        "text": "5693 andmestikku 2232 teabevaldajat\n     ```\n\n9. **Message**",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 26
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 27
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 28
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 29
+      },
+      {
+        "timestamp": null,
+        "sender": "it has so much garbage, like this - https",
+        "text": "//avaandmed.eesti.ee/datasets/burokratu-turu-uuringu-alusandmed",
+        "links": [
+          "https://avaandmed.eesti.ee/datasets/burokratu-turu-uuringu-alusandmed"
+        ],
+        "image_order": 2,
+        "position_in_image": 30
+      },
+      {
+        "timestamp": null,
+        "sender": "(Update frequency",
+        "text": "Never updated",
+        "links": [],
+        "image_order": 2,
+        "position_in_image": 31
+      },
+      {
+        "timestamp": null,
+        "sender": "Landing page",
+        "text": "https://www.krist.ee/burokrattt)\n     ```",
+        "links": [
+          "https://www.krist.ee/burokrattt)"
+        ],
+        "image_order": 2,
+        "position_in_image": 32
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Landing page: https://www.kratid.ee/burokratr\"",
+        "links": [
+          "https://www.kratid.ee/burokratr"
+        ],
+        "image_order": 3,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n2. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Purpose of creation: identify the readiness of the Estonian population for communication with the virtual assistant.) what's the point of this data set? )\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n3. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"avaandmed.eesti.ee\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n4. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Eesti rigi avaandmete portaal\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n5. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Eesti rigi avaandmete portaali kaudu on võimalik avaliku sektori juurdepääsuõiguslinguteta andmete koos nende taaskasutamise ja edasijagamise õiguseega nii ametlikel kui ka mittetululistele eesmärkidele.\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n6. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "(Image of a forest)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n7. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Andry Pedak\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "AP",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "UK\n\n8. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Examples here: https://avaandmed.eesti.ee/usage-stories\"",
+        "links": [
+          "https://avaandmed.eesti.ee/usage-stories"
+        ],
+        "image_order": 3,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "AP",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "UK\n\n9. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Julian Kaljuvee\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 25
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "JK",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 26
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "UK\n\n10. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 27
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"we built first ever Estonian land price index a few years back, had to scrape data from maaaamet.ee, now if we could get this via an API, would be interesting - https://landindex.streamlit.app/\"",
+        "links": [
+          "https://landindex.streamlit.app/"
+        ],
+        "image_order": 3,
+        "position_in_image": 28
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "JK",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 29
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "UK\n\n11. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 30
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Streamlit\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 31
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 32
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n12. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 33
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Land Index\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 34
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 35
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n13. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 36
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"Launch a browser on localhost:8501\"",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 37
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 38
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)\n\n14. **Message**",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 39
+      },
+      {
+        "timestamp": null,
+        "sender": "- Text",
+        "text": "\"I had a meeting with https://aire-edih.eu/ yesterday, they liked my idea of building a portal like govsignals.ai (US, just got 5m usd funding) but for the EU; if anyone interested in collaborating on this, DM me, let's chat, there is an effort already in Estonia (Henrik here involved), it's a step in the right direction\"",
+        "links": [
+          "https://aire-edih.eu/"
+        ],
+        "image_order": 3,
+        "position_in_image": 40
+      },
+      {
+        "timestamp": null,
+        "sender": "- Sender",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 41
+      },
+      {
+        "timestamp": null,
+        "sender": "- Timestamp",
+        "text": "(Unknown)",
+        "links": [],
+        "image_order": 3,
+        "position_in_image": 42
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Henrik Aavik**",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Kostja Kümnik\n     Great to hear you are experimenting with VAPI 🌟 What are you building?\n     Cold calling seller guy for one device.\n     ```\n\n2. **Kostja Kümnik**",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Henrik Aavik\n     Julian Kallukee",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "https",
+        "text": "//tender.ai/streamlit-app/, just a demo of the data, most of the eGov data / interfaces basically unusable / unnavigable so building AI Agents using these OpenAPIs has lots of good use cases\n     ```\n\n3. **Julian Kallukee**",
+        "links": [
+          "https://tender.ai/streamlit-app/,"
+        ],
+        "image_order": 4,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Streamlit\n     Estonian Public Procurement Feed",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "This app was built in Streamlit! Check it out and visit https",
+        "text": "//streamlit.io/ for more awesome community apps.\n     ```\n\n4. **Henrik Aavik**",
+        "links": [
+          "https://streamlit.io/"
+        ],
+        "image_order": 4,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kallukee\n     yes it's a total mess, everywhere not only in Estonia; but most accountants only know Directo etc, you w...",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "Also collection management is currently totally different industry, but it should be just a feature in bookkeeping software",
+        "text": "agents e-mailing balance statements, calling and reminding.\n     ```\n\n5. **Artjom**",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kallukee\n     Some say that UX development will disappear largely, you'll just have a simplified chat interface like we...\n     My bet – interfaces will not exist. These will be generated in the fly depending on the stage of interaction and tasks\n     ```\n\n6. **Henrik Aavik**",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Tehastebotseltsi meeskond - Skeptiline tehastebotseltsi tulevikususe osas on Katjaväljas.\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et\n     • Tehastebotseltsi meeskond on avaldanud uue arengu plaanikava ja -moodulid, mis on mõeldud ettevõtetele, et",
+        "links": [],
+        "image_order": 4,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the list of messages from the Telegram chat screenshot",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan (owner)",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kaljuvee",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "I had a meeting with https",
+        "text": "//aire-edih.eu yesterday, they liked my idea of building a portal like govsignal... Making it open-source possible? I'll bring some additional help.",
+        "links": [
+          "https://aire-edih.eu"
+        ],
+        "image_order": 5,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "https",
+        "text": "//www.pipecat.ai Please give it a try\n     ```\n\n2. **Message**",
+        "links": [
+          "https://www.pipecat.ai"
+        ],
+        "image_order": 5,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     www.pipecat.ai\n     Pipecat by Daily\n     Open Source framework for voice and multimodal conversational AI\n     ```\n\n3. **Message**",
+        "links": [
+          "www.pipecat.ai"
+        ],
+        "image_order": 5,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     🎉 Henrik Aavik\n     Some insight into Estonian businesses thinking (in Estonian)\n\n     Senior leadership are never early adaptors, speaking to my CEO friends they're mostly to hear anything, except when they're tech CEOs; this study is though across the board\n     ```\n\n4. **Message**",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Making it open-source possible? I'll bring some additional help.",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "I call it OpenTenderAI and then close source it and try to raise billions, like OpenAI; but yes get your point",
+        "text": "I call it OpenTenderAI and then close source it and try to raise billions, like OpenAI; but yes get your point :)\n     ```\n\n5. **Message**",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     I call it OpenTenderAI and then close source it and try to raise billions, like OpenAI; but yes get your point...\n\n     Yes that works 😸 On a serious note, we've been exploring the idea of using agents as grant finders and writers for researchers and entrepreneurs for quite some time. I believe this could be the perfect project to experiment with for this group.\n     ```\n\n6. **Message**",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan (owner)",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```",
+        "links": [],
+        "image_order": 5,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "I'm inspired by https",
+        "text": "//www.grantassistant.ai/ and https://www.ema.co/ai-employees\n\n     I'd love for you all to join forces on this Open-Source experiment\n     ```",
+        "links": [
+          "https://www.grantassistant.ai/",
+          "https://www.ema.co/ai-employees"
+        ],
+        "image_order": 5,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "1. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Vattan\n     Yes that works 😊 On a serious note, we've been exploring the idea of using agents as grant finders an...\n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "2. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     ema.co behind a sales wall, terrible business model, but the idea is cool, hire an agent like agent.ai\n     \"Talk to our sales and someone will call you\" no thanks, I don't want to talk to them just want to try your product",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "https",
+        "text": "//www.ema.co/hire-ema\n     ```",
+        "links": [
+          "https://www.ema.co/hire-ema"
+        ],
+        "image_order": 6,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "3. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan (owner)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kaljuvee\n     ema.co behind a sales wall, terrible business model, but the idea is cool, hire an agent like agent.ai\n     They have this RFP writer (that can write hundreds in a second)\n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "4. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kaljuvee\n     Imagine if ChatGPT had to launch with this model that before you can try, please leave your info and someone will call you?\n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "5. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan (owner)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kaljuvee\n     Imagine if ChatGPT had to launch with this model that before you can try, please leave your info and som...",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "Unfortunately, This is how enterprise sales works",
+        "text": "Unfortunately, This is how enterprise sales works :) OpenAI has some model for enterprise customers\n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "6. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 25
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Vattan\n     They have this RFP writer (that can write hundreds in a second)\n     I don't see any innovation there, it just an LLM wrapper with a custom system prompt and maybe a search tool\n\n     ema.co is enterprise?",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 26
+      },
+      {
+        "timestamp": null,
+        "sender": "anyway you talk to them, let the group know how it goes",
+        "text": "anyway you talk to them, let the group know how it goes :) \n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 27
+      },
+      {
+        "timestamp": null,
+        "sender": "7. **Message",
+        "text": "**",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 28
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp",
+        "text": "** Not provided",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 29
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee (JK)",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 30
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** \n     ```\n     Julian Kaljuvee\n     I don't see any innovation there, it just an LLM wrapper with a custom system prompt and maybe a sear...\n     They have their own proprietary model (started with 50m round)\n\n     the whole SaaS enterprise model with expensive sales people and their 18mont sales cycle and their conferences is broken\n\n     total opposite of open source\n     ```",
+        "links": [],
+        "image_order": 6,
+        "position_in_image": 31
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the list of messages from the Telegram chat screenshot",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan owner",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"ema.co is enterprise?\"\n\n2. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"Yes\"\n\n3. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"total opposite of open source\"\n\n4. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"It is — but I shared that as example to learn more about their RFP writer\"\n\n5. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"JK why can't you offer both? Like microsoft or google offer most of their products or any other normal company\"\n\n6. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan owner",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"This is what they're promoting so much like Pactum for enterprise vendor negotiations\"\n\n7. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"so you get free / community to try and if you want white glove high touch handling you talk to someone sales dude or girl in SF or London\"\n\n8. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan owner",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"Julian Kaljuvee why can't you offer both? Like microsoft or google offer most of their products or any other normal com... Too early — they're 7-8 months old — not ready for demand\"\n\n9. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 24
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 25
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 26
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"so you get free / community to try and if you want white glove high touch handling you talk to someone... Unfortunately i haven't seen any B2E with this kinda model except Perplexity\"\n\n10. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 27
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 28
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 29
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"it's the standard model with 3 boxes in Silicon Valley for past 40 years, 95% of the industry has it, 3 boxes:\"",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 30
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Image**",
+        "text": "Plans & Pricing",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 31
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Free**",
+        "text": "Free tier with limited features",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 32
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Hubbubist**",
+        "text": "$12.50 tier with more features",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 33
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Tweeter**",
+        "text": "$25.00 tier with full features\n\n11. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 34
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 35
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 36
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"or 5 boxes like Pipedrive, whatever, the point is you give something away for free if you want to get traction\"\n\n12. **Message**",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 37
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 38
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan owner",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 39
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "\"You're talking about B2B and B2E SaaS — but products only for enterprises don't offer that\"",
+        "links": [],
+        "image_order": 7,
+        "position_in_image": 40
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     Choose the best plan for you\n\n     Essentials \n     •14\n     •System\n     •No credit card required\n\n     Advanced \n     •39\n     •System\n     •No credit card required\n\n     Professional \n     •49\n     •System\n     •No credit card required\n\n     Power \n     •64\n     •System\n     •No credit card required\n\n     Enterprise \n     •99\n     •System\n     •No credit card required\n     ```\n\n2. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan (owner)",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Vattan\n     You're talking about B2B and B2E SaaS — but products only for enterprises don't offer that",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "Try this one — https",
+        "text": "//pactum.com/\n     ```\n\n3. **Message**",
+        "links": [
+          "https://pactum.com/"
+        ],
+        "image_order": 8,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     I know pactum / founders well; very sales heavy; anyway these AI agents won't be different from SaaS at the",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "AI agents are just software and will be sold as SaaS, just because Pactum is in 1% of minority that doesn't follow the standard pattern doesn't prove anything",
+        "text": "AI agents are just software and will be sold as SaaS, just because Pactum is in 1% of minority that doesn't follow the standard pattern doesn't prove anything :)\n     ```\n\n4. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan (owner)",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     or 5 boxes like Pipedrive, whatever, the point is you give something away for free if you want to get tracti...\n     They usually start with multi-year enterprise deals. Anyway, we should keep our focus here on developers\n     and tech—it's shifting towards the business side and pricing now. I'd be happy to continue this discussion\n     on pricing strategies for AI in one of the upcoming panel discussions.\n     ```\n\n5. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 16
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     but even the 3 boxes model is wrong / antiquated, it's better to deploy your software per token / per\n     compute\n\n     yes let's talk tech sure, just the example you shared is enterprise, no way to see what they do or\n     evaluate it, so let's not share those, useless\n\n     Let's share more open source stuff like you did\n     ```\n\n6. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 17
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 18
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Vattan (owner)",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 19
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     yes let's talk tech sure, just the example you shared is enterprise, no way to see what they do or evaluate...\n     I'll find out some additional examples\n     ```\n\n7. **Message**",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 20
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Timestamp**",
+        "text": "Not provided",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 21
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender**",
+        "text": "Julian Kaljuvee",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 22
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text**",
+        "text": "```\n     Julian Kaljuvee\n     There is grantify.io in the UK, but not much tech either; it's a difficult problem to solve technically to make it\n     scalable, would need something like gptr.dev if you know that project\n     ```",
+        "links": [],
+        "image_order": 8,
+        "position_in_image": 23
+      },
+      {
+        "timestamp": null,
+        "sender": "Here is the extracted text from the Telegram chat screenshot formatted as a list of messages",
+        "text": "1. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 0
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 1
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** There is grantify.io in the UK, but not much tech either; it's a difficult problem to solve technically to make it scalable, would need something like gptr.dev if you know that project or camel-ai.org which is the open source manus equivalent\n\n2. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 2
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 3
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** Andrew Ng keynote on Agents is worth watching, he has landing.ai - https://www.youtube.com/watch?v=KrRD7r7y7NY\n\n3. **Message**",
+        "links": [
+          "https://www.youtube.com/watch?v=KrRD7r7y7NY"
+        ],
+        "image_order": 9,
+        "position_in_image": 4
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** YouTube",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 5
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** Andrew Ng Explores The Rise Of AI Agents And Agentic Reasoning | BUILD 2024 Keynote",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 6
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Thumbnail Text",
+        "text": "** AI, AGENTS AND DATA",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 7
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Description",
+        "text": "** In recent years, the spotlight in AI has primarily been on large language models (LLMs) and emerging large multi-modal models (LMMs). Now, building on these tools, a new paradigm is emerging with the rise of AI agents and agentic reasoning, which are proving to be both cost-effective and powerful for building numerous n...\n\n4. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 8
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 9
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** They usually start with multi-year enterprise deals. Anyway, we should keep our focus here on developer...\n\n5. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 10
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 11
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** definitely put it in, as it's evolved in AI as well and it's important for techpreneurs to get it right\n\n6. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 12
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Vattan (owner)",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 13
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** definitely put it in, as it's evolved in AI as well and it's important for techpreneurs to get it right\n\n7. **Message**",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 14
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Sender",
+        "text": "** Julian Kaljuvee",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 15
+      },
+      {
+        "timestamp": null,
+        "sender": "- **Text",
+        "text": "** True — hopefully in the next one in April",
+        "links": [],
+        "image_order": 9,
+        "position_in_image": 16
+      }
+    ],
+    "metadata": {
+      "source_directory": "tests/sample_images",
+      "total_images": 10,
+      "processed_images": 10,
+      "failed_images": 0
+    }
+  }
+}

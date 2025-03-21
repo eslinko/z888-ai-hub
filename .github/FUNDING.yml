@@ -1,0 +1,26 @@
+github: eslinko
+patreon: patreon.com/user?u=67316007
+custom: ['https://z888.ai/donate']
+
+# Website
+website: https://zeya888.me
+
+# Social Media
+social:
+  twitter: https://twitter.com/LiaZeya888
+  instagram: https://www.instagram.com/zeyaart888
+  facebook: https://www.facebook.com/104632898430191
+  youtube: https://youtube.com/channel/UCQHXtX63VOf3nhNhXiYqkew
+
+# Cryptocurrency donations
+crypto:
+  - address: "bc1q5dmhwp75x4hqsje9u63kwvnwwwqe2wqwjfg3lg"
+    network: "bitcoin"
+  - address: "0x1Cb51514eC09f7650A10F7B545967c7165Fe5752"
+    network: "ethereum"
+  - address: "0x1Cb51514eC09f7650A10F7B545967c7165Fe5752"
+    network: "polygon"
+  - address: "G8YiWwMYLmPybQver5o9XWHatsx7ThLG5csQofFH5wK8"
+    network: "solana"
+  - address: "DUBpFzn895tZjPBQeTvGKMMiv7pyBcnprf"
+    network: "dogecoin" 
